@@ -128,10 +128,10 @@ class NodeGraph extends HTMLElement {
     const maxY = ys.length ? Math.max(...ys) : 0;
 
     return {
-      offsetX: -minX + PAD,
-      offsetY: -minY + PAD,
-      canvasW: maxX - minX + PAD * 2,
-      canvasH: maxY - minY + PAD * 2,
+      offsetX: -minX + 20,
+      offsetY: -minY + 20,
+      canvasW: maxX - minX + 20 * 2,
+      canvasH: maxY - minY + 20 * 2,
     };
   }
 }
