@@ -1,0 +1,11 @@
+{
+  "nodes": [
+    { "id": "start", "label": "Start" },
+    { "id": "step-1", "label": "Step 1" },
+    { "id": "end", "label": "End" }
+  ],
+  "edges": [
+    { "from": "start", "to": "step-1" },
+    { "from": "step-1", "to": "end" }
+  ]
+}
