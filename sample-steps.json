@@ -1,0 +1,46 @@
+{
+  "steps": [
+    {
+      "label": "Terrain density root",
+      "ids": [
+        "Terrain-d1985285-ba25-4a79-9e4e-379b206da49c",
+        "MultiplierDensityNode-94af9351-f4be-4fa8-8930-2ca6ab2c9612"
+      ]
+    },
+    {
+      "label": "Base height curve",
+      "ids": [
+        "SumDensityNode-cbb0fcc2-cbb8-4c5e-90b8-f0a747a7f8b5",
+        "SimplexNoise2DDensityNode-a6290f37-0afb-4ba1-bbdc-b08d13b0e612",
+        "CurveMapper.Density-a96dd9e6-64ab-4700-9406-6556ff62635b",
+        "ManualCurve-069b884c-3212-4eae-aff6-39326ff9da0b",
+        "CurvePoint-3de0a5f5-5962-4c9e-bc8d-0d00fb4dfd45",
+        "CurvePoint-91a8229c-d882-4671-bbc9-5f64ec2581de",
+        "BaseHeight.Density-432df746-d0cb-43b0-a264-2b8f8260a3b9",
+        "Cube.Density-a5c383d8-1e72-480b-aa43-b683ae35b868",
+        "Constant.Curve-dcd51972-aa00-4911-800a-4061c431414e"
+      ]
+    },
+    {
+      "label": "Solid vs. water materials",
+      "ids": [
+        "SolidityMaterialProvider-e3758c0c-b5da-49cf-befb-502fc6ccf3c4",
+        "ConstantMaterialProvider-b56c1bea-8ef3-4f22-9f3c-58a47a474a9c",
+        "Material-af6fa63a-20c3-4d3d-bd61-3823e6229c8b",
+        "SimpleHorizontalMaterialProvider-300194ac-dda9-4dab-bc60-e7c6aeb6560a",
+        "ConstantMaterialProvider-f86144da-818f-4791-ace0-322a5bc3bf56",
+        "Material-fc5a3c1b-7c73-41be-bc8b-edb4ea3b3b0b"
+      ]
+    },
+    {
+      "label": "Placing the Venice prop",
+      "ids": [
+        "Runtime-e140dd7b-3a19-4a48-95c7-45159ead732d",
+        "Constant.PropDistribution-2b916a2e-3201-4184-8bc8-1f39a6721d18",
+        "ListPositions-b5692612-2d1c-4e8e-b876-5887730d560f",
+        "Point3D-d623dee2-f6dd-4e2d-a688-19737ac78a90",
+        "Imported.Prop-97efca4a-eff7-46f9-ba72-3abc13ea4217"
+      ]
+    }
+  ]
+}

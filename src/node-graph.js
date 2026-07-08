@@ -1,26 +1,7 @@
-// <node-graph src="..." steps-src="..." start-step="0" can-step="true"></node-graph>
-//
-// A dependency-free custom element. No React, no build-time framework —
-// just DOM APIs, so this stays a single portable bundle.
+// node-graph.js
+// How to use: <node-graph src="..." steps-src="..." start-step="0" can-step="true"></node-graph>
 
-const STYLES = `
-  :host {
-    display: block;
-    width: 100%;
-    min-height: 300px;
-    box-sizing: border-box;
-    font-family: system-ui, sans-serif;
-  }
-  .ng-wrap {
-    width: 100%;
-    height: 100%;
-  }
-  .ng-status {
-    padding: 1rem;
-    color: #666;
-    font-size: 0.9rem;
-  }
-`;
+import STYLES from "./styles.css";
 
 class NodeGraph extends HTMLElement {
   static get observedAttributes() {
@@ -32,10 +13,18 @@ class NodeGraph extends HTMLElement {
     this._root = this.attachShadow({ mode: "open" });
     this._root.innerHTML = `
       <style>${STYLES}</style>
+      <div class="ng-head">
+        <span class="ng-title"></span>
+        <div class="ng-center"></div>
+        <div class="ng-right">
+          <button class="ng-expand-btn" type="button">Expand</button>
+        </div>
+      </div>
       <div class="ng-wrap">
         <div class="ng-status">Loading node graph…</div>
       </div>
     `;
+    this._titleEl = this._root.querySelector(".ng-title");
     this._wrap = this._root.querySelector(".ng-wrap");
   }
 
@@ -61,33 +50,39 @@ class NodeGraph extends HTMLElement {
   }
 
   get canStep() {
-    return this.getAttribute("can-step") === "true";
+    return this.getAttribute("can-step") === "false" || true;
   }
 
   async _render() {
+    this._titleEl.textContent = this.src.split("/").pop() || "node graph";
+
     if (!this.src) {
       this._wrap.innerHTML = `<div class="ng-status">No src provided.</div>`;
       return;
     }
 
     try {
-      // TODO: replace with your actual graph loading/rendering logic.
-      // This is just a placeholder that proves the attribute plumbing works.
-      const data = await fetch(this.src).then((r) => r.json());
-      const steps = this.stepsSrc
-        ? await fetch(this.stepsSrc).then((r) => r.json())
-        : null;
+      // TO-DO: replace with actual graph loading/rendering logic.
+      const stepsFile = this.stepsSrc ? await fetch(this.stepsSrc).then((src) => src.json()) : null;
+      const steps = Array.isArray(stepsFile?.steps) ? stepsFile.steps : [];
+
+      
+      if (!this.src.startsWith("https://voronoi.ch/graph.php?src=")) { 
+        this.src = `https://voronoi.ch/graph.php?src=${this.src}`; 
+      }
+      const visualsFile = await fetch(this.src).then((src) => src.json());
+      const visuals = Array.isArray(visualsFile) ? visualsFile : null;
 
       this._wrap.innerHTML = "";
       const canvas = document.createElement("div");
       canvas.textContent = `Loaded graph with ${
-        Array.isArray(data?.nodes) ? data.nodes.length : "?"
-      } nodes. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
+        Array.isArray(visuals) ? visuals.length : "?"
+      } visuals. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
       this._wrap.appendChild(canvas);
 
       this.dispatchEvent(
         new CustomEvent("node-graph:ready", {
-          detail: { data, steps, startStep: this.startStepm, canStep: this.canStep },
+          detail: { visuals, steps, startStep: this.startStep, canStep: this.canStep },
           bubbles: true,
           composed: true,
         })

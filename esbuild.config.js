@@ -7,6 +7,7 @@ const options = {
   bundle: true,
   minify: !watch,
   sourcemap: true,
+  loader: { ".css": "text" },
   format: "esm",
   target: ["es2020"],
   outfile: "dist/node-graph.js",
