@@ -90,7 +90,7 @@ class NodeGraph extends HTMLElement {
         visuals ? Object.keys(visuals).length : "?"
       } visuals. ${steps.length} steps. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
       
-      visuals.forEach((n, nodeKey) => {
+      Object.entries(visuals).forEach(([nodeKey, n]) => {
         const div = document.createElement("div");
         div.className = "ng-node";
         div.dataset.nodeId = nodeKey;
