@@ -50,6 +50,7 @@
     border: 1px solid var(--ring);
     background: transparent;
     color: #ccc;
+    transition: background 0.15s, transform 0.1s;
 }
 
 .ng-expand-btn:hover {
@@ -68,10 +69,11 @@
 
 .ng-walklink:hover {
     text-decoration: underline;
+    background: rgba(255,255,255,0.08);
 }
 
 .ng-stepbtn {
-    padding: 8px 16px;
+    padding: 4px 12px;
     border-radius: 8px;
     border: 1px solid var(--ring);
     background: transparent;
@@ -95,13 +97,13 @@
     text-align: center;
     min-width: 140px;
     white-space: nowrap;
-    height: 10px;
 }
 
 .ng-stepcount {
     font-size: 10px;
     color: #888;
     display: block;
+    height: 10px;
 }
 
 .ng-wrap {

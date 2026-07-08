@@ -50,6 +50,7 @@ var c=`:host {\r
     border: 1px solid var(--ring);\r
     background: transparent;\r
     color: #ccc;\r
+    transition: background 0.15s, transform 0.1s;\r
 }\r
 \r
 .ng-expand-btn:hover {\r
@@ -68,10 +69,11 @@ var c=`:host {\r
 \r
 .ng-walklink:hover {\r
     text-decoration: underline;\r
+    background: rgba(255,255,255,0.08);\r
 }\r
 \r
 .ng-stepbtn {\r
-    padding: 8px 16px;\r
+    padding: 4px 12px;\r
     border-radius: 8px;\r
     border: 1px solid var(--ring);\r
     background: transparent;\r
@@ -95,13 +97,13 @@ var c=`:host {\r
     text-align: center;\r
     min-width: 140px;\r
     white-space: nowrap;\r
-    height: 10px;\r
 }\r
 \r
 .ng-stepcount {\r
     font-size: 10px;\r
     color: #888;\r
     display: block;\r
+    height: 10px;\r
 }\r
 \r
 .ng-wrap {\r
