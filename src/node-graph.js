@@ -2,6 +2,7 @@
 // How to use: <node-graph src="..." steps-src="..." start-step="0" can-step="true"></node-graph>
 
 import STYLES from "./styles.css";
+import { SteppingController } from "./lib/stepping.js";
 
 class NodeGraph extends HTMLElement {
   static get observedAttributes() {
@@ -26,6 +27,12 @@ class NodeGraph extends HTMLElement {
     `;
     this._titleEl = this._root.querySelector(".ng-title");
     this._wrap = this._root.querySelector(".ng-wrap");
+
+    this._stepping = new SteppingController({
+      wrapEl: this._wrap,
+      centerEl: this._root.querySelector(".ng-center"),
+      canStep: () => this.canStep,
+    });
   }
 
   connectedCallback() {
