@@ -68,13 +68,13 @@ class NodeGraph extends HTMLElement {
 
       const srcUrl = !this.src.startsWith("https://voronoi.ch/graph.php?src=") ? `https://voronoi.ch/graph.php?src=${this.src}` : this.src;
       const visualsFile = await fetch(srcUrl).then((src) => src.json());
-      const visuals = Array.isArray(visualsFile) ? visualsFile : null;
+      const visuals = (typeof visualsFile === "object" && visualsFile !== null) ? visualsFile : null;
 
       this._wrap.innerHTML = "";
       const canvas = document.createElement("div");
       canvas.textContent = `Loaded graph with ${
-        Array.isArray(visuals) ? visuals.length : "?"
-      } visuals. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
+        visuals ? Object.keys(visuals).length : "?"
+      } visuals. ${steps.length} steps. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
       this._wrap.appendChild(canvas);
 
       this.dispatchEvent(
