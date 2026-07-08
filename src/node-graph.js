@@ -77,7 +77,7 @@ class NodeGraph extends HTMLElement {
       const visualsFile = await fetch(srcUrl).then((src) => src.json());
       const visuals = (typeof visualsFile === "object" && visualsFile !== null) ? visualsFile : null;
 
-      const bounds = computeBounds(graph);
+      const bounds = this._computeBounds(visuals);
 
       this._wrap.innerHTML = "";
       const canvas = document.createElement("div");
@@ -119,9 +119,9 @@ class NodeGraph extends HTMLElement {
     }
   }
 
-  computeBounds(graph) {
-    const xs = Array.from(graph.values()).map((n) => n.x);
-    const ys = Array.from(graph.values()).map((n) => n.y);
+  _computeBounds(visuals) {
+    const xs = Object.values(visuals).map((n) => n.pos.x);
+    const ys = Object.values(visuals).map((n) => n.pos.y);
     const minX = xs.length ? Math.min(...xs) : 0;
     const minY = ys.length ? Math.min(...ys) : 0;
     const maxX = xs.length ? Math.max(...xs) : 0;
