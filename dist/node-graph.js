@@ -109,6 +109,8 @@ var p=`:host {\r
     height: 100%;\r
     overflow: auto;\r
     position: relative;\r
+    background: var(--card);\r
+    flex: auto;\r
 }\r
 \r
 .ng-status {\r
