@@ -66,11 +66,8 @@ class NodeGraph extends HTMLElement {
       const stepsFile = this.stepsSrc ? await fetch(this.stepsSrc).then((src) => src.json()) : null;
       const steps = Array.isArray(stepsFile?.steps) ? stepsFile.steps : [];
 
-      
-      if (!this.src.startsWith("https://voronoi.ch/graph.php?src=")) { 
-        this.src = `https://voronoi.ch/graph.php?src=${this.src}`; 
-      }
-      const visualsFile = await fetch(this.src).then((src) => src.json());
+      const srcUrl = !this.src.startsWith("https://voronoi.ch/graph.php?src=") ? `https://voronoi.ch/graph.php?src=${this.src}` : this.src;
+      const visualsFile = await fetch(srcUrl).then((src) => src.json());
       const visuals = Array.isArray(visualsFile) ? visualsFile : null;
 
       this._wrap.innerHTML = "";

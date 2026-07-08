@@ -1,4 +1,4 @@
-var o=`:host {\r
+var p=`:host {\r
     display: block;\r
     width: 100%;\r
     min-height: 300px;\r
@@ -125,7 +125,7 @@ var o=`:host {\r
 .ng-edge {\r
     transition: opacity .2s ease;\r
 }`;var i=class extends HTMLElement{static get observedAttributes(){return["src","steps-src","start-step","can-step"]}constructor(){super(),this._root=this.attachShadow({mode:"open"}),this._root.innerHTML=`
-      <style>${o}</style>
+      <style>${p}</style>
       <div class="ng-head">
         <span class="ng-title"></span>
         <div class="ng-center"></div>
@@ -136,5 +136,5 @@ var o=`:host {\r
       <div class="ng-wrap">
         <div class="ng-status">Loading node graph\u2026</div>
       </div>
-    `,this._titleEl=this._root.querySelector(".ng-title"),this._wrap=this._root.querySelector(".ng-wrap")}connectedCallback(){this._render()}attributeChangedCallback(t,s,e){s!==e&&this.isConnected&&this._render()}get src(){return this.getAttribute("src")||""}get stepsSrc(){return this.getAttribute("steps-src")||""}get startStep(){return Number(this.getAttribute("start-step")||0)}get canStep(){return this.getAttribute("can-step")==="false"||!0}async _render(){if(this._titleEl.textContent=this.src.split("/").pop()||"node graph",!this.src){this._wrap.innerHTML='<div class="ng-status">No src provided.</div>';return}try{let t=this.stepsSrc?await fetch(this.stepsSrc).then(n=>n.json()):null,s=Array.isArray(t?.steps)?t.steps:[];this.src.startsWith("https://voronoi.ch/graph.php?src=")||(this.src=`https://voronoi.ch/graph.php?src=${this.src}`);let e=await fetch(this.src).then(n=>n.json()),r=Array.isArray(e)?e:null;this._wrap.innerHTML="";let a=document.createElement("div");a.textContent=`Loaded graph with ${Array.isArray(r)?r.length:"?"} visuals. Start step: ${this.startStep}. Can step: ${this.canStep}.`,this._wrap.appendChild(a),this.dispatchEvent(new CustomEvent("node-graph:ready",{detail:{visuals:r,steps:s,startStep:this.startStep,canStep:this.canStep},bubbles:!0,composed:!0}))}catch(t){this._wrap.innerHTML=`<div class="ng-status">Failed to load: ${String(t)}</div>`,console.error("[node-graph]",t)}}};customElements.define("node-graph",i);export{i as NodeGraph};
+    `,this._titleEl=this._root.querySelector(".ng-title"),this._wrap=this._root.querySelector(".ng-wrap")}connectedCallback(){this._render()}attributeChangedCallback(t,e,s){e!==s&&this.isConnected&&this._render()}get src(){return this.getAttribute("src")||""}get stepsSrc(){return this.getAttribute("steps-src")||""}get startStep(){return Number(this.getAttribute("start-step")||0)}get canStep(){return this.getAttribute("can-step")==="false"||!0}async _render(){if(this._titleEl.textContent=this.src.split("/").pop()||"node graph",!this.src){this._wrap.innerHTML='<div class="ng-status">No src provided.</div>';return}try{let t=this.stepsSrc?await fetch(this.stepsSrc).then(n=>n.json()):null,e=Array.isArray(t?.steps)?t.steps:[],s=this.src.startsWith("https://voronoi.ch/graph.php?src=")?this.src:`https://voronoi.ch/graph.php?src=${this.src}`,a=await fetch(s).then(n=>n.json()),r=Array.isArray(a)?a:null;this._wrap.innerHTML="";let o=document.createElement("div");o.textContent=`Loaded graph with ${Array.isArray(r)?r.length:"?"} visuals. Start step: ${this.startStep}. Can step: ${this.canStep}.`,this._wrap.appendChild(o),this.dispatchEvent(new CustomEvent("node-graph:ready",{detail:{visuals:r,steps:e,startStep:this.startStep,canStep:this.canStep},bubbles:!0,composed:!0}))}catch(t){this._wrap.innerHTML=`<div class="ng-status">Failed to load: ${String(t)}</div>`,console.error("[node-graph]",t)}}};customElements.define("node-graph",i);export{i as NodeGraph};
 //# sourceMappingURL=node-graph.js.map
