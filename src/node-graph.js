@@ -84,6 +84,8 @@ class NodeGraph extends HTMLElement {
       } visuals. ${steps.length} steps. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
       this._wrap.appendChild(canvas);
 
+      this._stepping.init(steps, this.startStep);
+
       this.dispatchEvent(
         new CustomEvent("node-graph:ready", {
           detail: { visuals, steps, startStep: this.startStep, canStep: this.canStep },
