@@ -44,13 +44,12 @@ var c=`:host {\r
 }\r
 \r
 .ng-expand-btn {\r
-    font-size: 13px;\r
-    padding: 5px 10px;\r
-    border-radius: 4px;\r
-    border: 1px solid rgba(255,255,255,0.25);\r
+    font-size: 14px;\r
+    padding: 8px 16px;\r
+    border-radius: 8px;\r
+    border: 1px solid var(--ring);\r
     background: transparent;\r
     color: #ccc;\r
-    cursor: pointer;\r
 }\r
 \r
 .ng-expand-btn:hover {\r
@@ -58,12 +57,13 @@ var c=`:host {\r
 }\r
 \r
 .ng-walklink {\r
-    font-size: 13px;\r
-    color: #7fb2ff;\r
-    background: none;\r
-    border: none;\r
-    cursor: pointer;\r
-    padding: 4px 6px;\r
+    font-size: 14px;\r
+    padding: 8px 16px;\r
+    border-radius: 8px;\r
+    border: 1px solid var(--ring);\r
+    background: transparent;\r
+    color: #ccc;\r
+    transition: background 0.15s, transform 0.1s;\r
 }\r
 \r
 .ng-walklink:hover {\r
@@ -71,15 +71,14 @@ var c=`:host {\r
 }\r
 \r
 .ng-stepbtn {\r
-    width: 22px;\r
-    height: 22px;\r
-    border-radius: 50%;\r
-    border: 1px solid rgba(255,255,255,0.25);\r
+    padding: 8px 16px;\r
+    border-radius: 8px;\r
+    border: 1px solid var(--ring);\r
     background: transparent;\r
     color: #ccc;\r
-    cursor: pointer;\r
     line-height: 1;\r
-    font-size: 13px;\r
+    font-size: 14px;\r
+    transition: background 0.15s, transform 0.1s;\r
 }\r
 \r
 .ng-stepbtn:hover {\r
@@ -96,6 +95,7 @@ var c=`:host {\r
     text-align: center;\r
     min-width: 140px;\r
     white-space: nowrap;\r
+    height: 10px;\r
 }\r
 \r
 .ng-stepcount {\r
