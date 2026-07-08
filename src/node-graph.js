@@ -77,11 +77,29 @@ class NodeGraph extends HTMLElement {
       const visualsFile = await fetch(srcUrl).then((src) => src.json());
       const visuals = (typeof visualsFile === "object" && visualsFile !== null) ? visualsFile : null;
 
+      const bounds = computeBounds(graph);
+
       this._wrap.innerHTML = "";
       const canvas = document.createElement("div");
+      canvas.className = "ng-canvas";
+      canvas.style.width = bounds.canvasW + "px";
+      canvas.style.height = bounds.canvasH + "px";
+      //canvas.insertAdjacentHTML("beforeend", buildEdgesSvg(connections, graph, bounds));
+
       canvas.textContent = `Loaded graph with ${
         visuals ? Object.keys(visuals).length : "?"
       } visuals. ${steps.length} steps. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
+      
+      visuals.forEach((n, nodeKey) => {
+        const div = document.createElement("div");
+        div.className = "ng-node";
+        div.dataset.nodeId = nodeKey;
+        div.style.left = n.pos.x + bounds.offsetX + "px";
+        div.style.top = n.pos.y + bounds.offsetY + "px";
+        div.innerHTML = n.svg;
+        canvas.appendChild(div);
+      });
+
       this._wrap.appendChild(canvas);
 
       this._stepping.init(steps, this.startStep);
@@ -99,6 +117,22 @@ class NodeGraph extends HTMLElement {
       )}</div>`;
       console.error("[node-graph]", err);
     }
+  }
+
+  computeBounds(graph) {
+    const xs = Array.from(graph.values()).map((n) => n.x);
+    const ys = Array.from(graph.values()).map((n) => n.y);
+    const minX = xs.length ? Math.min(...xs) : 0;
+    const minY = ys.length ? Math.min(...ys) : 0;
+    const maxX = xs.length ? Math.max(...xs) : 0;
+    const maxY = ys.length ? Math.max(...ys) : 0;
+
+    return {
+      offsetX: -minX + PAD,
+      offsetY: -minY + PAD,
+      canvasW: maxX - minX + PAD * 2,
+      canvasH: maxY - minY + PAD * 2,
+    };
   }
 }
 
