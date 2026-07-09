@@ -2,14 +2,12 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 300px;
-    /* box-sizing: border-box; */
+    height: 350px;
     font-family: system-ui, sans-serif;
     
     border: 0.5px solid var(--border) !important;
     border-radius: 12px;
     background: var(--secondary);
-    /* margin: 20px 0; */
     overflow: hidden;
 }
 
@@ -25,12 +23,29 @@
     color: #ccc;
 }
 
+.ng-icon {
+    flex: none;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+}
+
+
 .ng-title {
     justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.ng-title-text {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 
 .ng-center {
     justify-self: center;
@@ -44,6 +59,9 @@
 }
 
 .ng-expand-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 14px;
     padding: 8px 16px;
     border-radius: 8px;
@@ -52,12 +70,16 @@
     color: #ccc;
     transition: background 0.15s, transform 0.1s;
 }
+
 
 .ng-expand-btn:hover {
     background: rgba(255,255,255,0.08);
 }
 
 .ng-walklink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 14px;
     padding: 8px 16px;
     border-radius: 8px;
@@ -67,12 +89,28 @@
     transition: background 0.15s, transform 0.1s;
 }
 
+
 .ng-walklink:hover {
     text-decoration: underline;
     background: rgba(255,255,255,0.08);
 }
 
+.ng-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ng-walklink[hidden],
+.ng-stepper[hidden] {
+    display: none;
+}
+
+
 .ng-stepbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 4px 12px;
     border-radius: 8px;
     border: 1px solid var(--ring);
@@ -82,6 +120,7 @@
     font-size: 14px;
     transition: background 0.15s, transform 0.1s;
 }
+
 
 .ng-stepbtn:hover {
     background: rgba(255,255,255,0.08);
@@ -109,7 +148,7 @@
 .ng-wrap {
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     position: relative;
     background: var(--card);
     flex: auto;
@@ -123,7 +162,10 @@
 
 .ng-canvas {
     position: relative;
+    transform-origin: 0 0;
+    transition: transform .4s cubic-bezier(.22, .8, .2, 1);
 }
+
 
 .ng-node {
     position: absolute;
