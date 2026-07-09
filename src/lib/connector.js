@@ -6,8 +6,8 @@ export function buildConnectionsSvg(connections, visuals, bounds) {
   ];
 
   connections.forEach((c) => {
-    const visualA = visuals.get(c.from);
-    const visualB = visuals.get(c.to);
+    const visualA = visuals[c.from];
+    const visualB = visuals[c.to];
     if (!visualA || !visualB) return;
 
     const index = visualA.outputs.indexOf(c.via);
