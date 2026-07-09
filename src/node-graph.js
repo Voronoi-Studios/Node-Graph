@@ -3,6 +3,7 @@
 
 import STYLES from "./styles.css";
 import TEMPLATE from "./template.html";
+import { buildConnectionsSvg } from "./lib/connector.js";
 import { SteppingController } from "./lib/stepping.js";
 import { computeFit, applyCamera, computeBounds } from "./lib/camera.js";
 import { icon } from "./lib/icons.js";
@@ -103,8 +104,10 @@ class NodeGraph extends HTMLElement {
       const steps = Array.isArray(stepsFile?.steps) ? stepsFile.steps : [];
 
       const srcUrl = !this.src.startsWith("https://voronoi.ch/graph.php?src=") ? `https://voronoi.ch/graph.php?src=${this.src}` : this.src;
-      const visualsFile = await fetch(srcUrl).then((src) => src.json());
-      this._visuals = (typeof visualsFile === "object" && visualsFile !== null) ? visualsFile : null;
+      const resultFile = await fetch(srcUrl).then((src) => src.json());
+      const result = (typeof resultFile === "object" && resultFile !== null) ? resultFile : null;
+      this._visuals = result?.visuals || {};
+      this._connections = result?.connections || {};
 
       this._bounds = computeBounds(this._visuals);
 
@@ -113,11 +116,15 @@ class NodeGraph extends HTMLElement {
       this._canvas.className = "ng-canvas";
       this._canvas.style.width = this._bounds.canvasW + "px";
       this._canvas.style.height = this._bounds.canvasH + "px";
-      //canvas.insertAdjacentHTML("beforeend", buildEdgesSvg(connections, graph, bounds));
+      this._canvas.insertAdjacentHTML("beforeend", buildConnectionsSvg(this._connections, this._visuals, this._bounds));
 
-      this._statusEl.textContent = `Loaded graph with ${
-        this._visuals ? Object.keys(this._visuals).length : "?"
-      } visuals. ${steps.length} steps. Start step: ${this.startStep}. Can step: ${this.canStep}.`;
+      this._statusEl.textContent = `
+        Loaded graph with ${this._visuals ? Object.keys(this._visuals).length : "?"} visuals. 
+        ${this._connections ? Object.keys(this._connections).length : "?"} connections. 
+        ${steps.length} steps. 
+        Start step: ${this.startStep}. 
+        Can step: ${this.canStep}.
+      `;
       
       Object.entries(this._visuals).forEach(([nodeKey, n]) => {
         const div = document.createElement("div");
