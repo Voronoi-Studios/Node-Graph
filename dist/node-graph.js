@@ -1,15 +1,13 @@
-var h=`:host {\r
+var v=`:host {\r
     display: flex;\r
     flex-direction: column;\r
     width: 100%;\r
-    min-height: 300px;\r
-    /* box-sizing: border-box; */\r
+    height: 350px;\r
     font-family: system-ui, sans-serif;\r
     \r
     border: 0.5px solid var(--border) !important;\r
     border-radius: 12px;\r
     background: var(--secondary);\r
-    /* margin: 20px 0; */\r
     overflow: hidden;\r
 }\r
 \r
@@ -25,12 +23,29 @@ var h=`:host {\r
     color: #ccc;\r
 }\r
 \r
+.ng-icon {\r
+    flex: none;\r
+    vertical-align: middle;\r
+    position: relative;\r
+    top: -1px;\r
+}\r
+\r
+\r
 .ng-title {\r
     justify-self: start;\r
+    display: flex;\r
+    align-items: center;\r
+    gap: 6px;\r
     white-space: nowrap;\r
+    overflow: hidden;\r
+\r
+}\r
+\r
+.ng-title-text {\r
     overflow: hidden;\r
     text-overflow: ellipsis;\r
 }\r
+\r
 \r
 .ng-center {\r
     justify-self: center;\r
@@ -44,6 +59,9 @@ var h=`:host {\r
 }\r
 \r
 .ng-expand-btn {\r
+    display: inline-flex;\r
+    align-items: center;\r
+    gap: 6px;\r
     font-size: 14px;\r
     padding: 8px 16px;\r
     border-radius: 8px;\r
@@ -52,12 +70,16 @@ var h=`:host {\r
     color: #ccc;\r
     transition: background 0.15s, transform 0.1s;\r
 }\r
+\r
 \r
 .ng-expand-btn:hover {\r
     background: rgba(255,255,255,0.08);\r
 }\r
 \r
 .ng-walklink {\r
+    display: inline-flex;\r
+    align-items: center;\r
+    gap: 6px;\r
     font-size: 14px;\r
     padding: 8px 16px;\r
     border-radius: 8px;\r
@@ -67,12 +89,28 @@ var h=`:host {\r
     transition: background 0.15s, transform 0.1s;\r
 }\r
 \r
+\r
 .ng-walklink:hover {\r
     text-decoration: underline;\r
     background: rgba(255,255,255,0.08);\r
 }\r
 \r
+.ng-stepper {\r
+    display: flex;\r
+    align-items: center;\r
+    gap: 8px;\r
+}\r
+\r
+.ng-walklink[hidden],\r
+.ng-stepper[hidden] {\r
+    display: none;\r
+}\r
+\r
+\r
 .ng-stepbtn {\r
+    display: inline-flex;\r
+    align-items: center;\r
+    justify-content: center;\r
     padding: 4px 12px;\r
     border-radius: 8px;\r
     border: 1px solid var(--ring);\r
@@ -82,6 +120,7 @@ var h=`:host {\r
     font-size: 14px;\r
     transition: background 0.15s, transform 0.1s;\r
 }\r
+\r
 \r
 .ng-stepbtn:hover {\r
     background: rgba(255,255,255,0.08);\r
@@ -109,7 +148,7 @@ var h=`:host {\r
 .ng-wrap {\r
     width: 100%;\r
     height: 100%;\r
-    overflow: auto;\r
+    overflow: hidden;\r
     position: relative;\r
     background: var(--card);\r
     flex: auto;\r
@@ -123,7 +162,10 @@ var h=`:host {\r
 \r
 .ng-canvas {\r
     position: relative;\r
+    transform-origin: 0 0;\r
+    transition: transform .4s cubic-bezier(.22, .8, .2, 1);\r
 }\r
+\r
 \r
 .ng-node {\r
     position: absolute;\r
@@ -136,17 +178,47 @@ var h=`:host {\r
 \r
 .ng-edge {\r
     transition: opacity .2s ease;\r
-}`;var c=class{constructor({wrapEl:e,centerEl:t,canStep:s}){this._wrapEl=e,this._centerEl=t,this._canStep=s,this.steps=[],this.mode="none",this.currentStep=0}init(e,t){this.steps=e,e.length?t===0?(this.mode="whole",this._clearDim()):(this.mode="stepping",this.currentStep=Math.min(Math.max(t-1,0),e.length-1),this._applyDim(e[this.currentStep].ids)):this.mode="none",this._renderCenter()}_applyDim(e){this._wrapEl.querySelectorAll(".ng-node").forEach(t=>{t.classList.toggle("ng-dim",!e.includes(t.dataset.nodeId))}),this._wrapEl.querySelectorAll(".ng-edge").forEach(t=>{let s=e.includes(t.dataset.from)&&e.includes(t.dataset.to);t.style.opacity=s?"1":"0.25"})}_clearDim(){this._wrapEl.querySelectorAll(".ng-node").forEach(e=>e.classList.remove("ng-dim")),this._wrapEl.querySelectorAll(".ng-edge").forEach(e=>e.style.opacity="1")}_renderCenter(){if(this._centerEl.innerHTML="",this.mode==="none")return;if(this.mode==="whole"){if(!this._canStep())return;let r=document.createElement("button");r.className="ng-walklink",r.type="button",r.textContent="Start walkthrough \u2192",r.addEventListener("click",()=>this._startWalkthrough()),this._centerEl.appendChild(r);return}let e=this.steps[this.currentStep],t=document.createElement("button");t.className="ng-stepbtn",t.type="button",t.textContent="\u2039",t.setAttribute("aria-label","Previous step");let s=document.createElement("span");s.className="ng-steplabel",s.innerHTML=`<span class="ng-stepcount">step ${this.currentStep+1} of ${this.steps.length}</span>${e.label||""}`;let n=document.createElement("button");n.className="ng-stepbtn",n.type="button",n.textContent="\u203A",n.setAttribute("aria-label","Next step"),n.disabled=this.currentStep===this.steps.length-1,this._canStep()?(t.addEventListener("click",()=>this._goStep(-1)),n.addEventListener("click",()=>this._goStep(1))):(t.disabled=!0,n.disabled=!0),this._centerEl.append(t,s,n)}_startWalkthrough(){this.mode="stepping",this.currentStep=0,this._applyDim(this.steps[0].ids),this._renderCenter()}_exitToWhole(){this.mode="whole",this._clearDim(),this._renderCenter()}_goStep(e){let t=this.currentStep+e;if(t<0){this._exitToWhole();return}t>this.steps.length-1||(this.currentStep=t,this._applyDim(this.steps[this.currentStep].ids),this._renderCenter())}};var d=class extends HTMLElement{static get observedAttributes(){return["src","steps-src","start-step","can-step"]}constructor(){super(),this._root=this.attachShadow({mode:"open"}),this._root.innerHTML=`
-      <style>${h}</style>
-      <div class="ng-head">
-        <span class="ng-title"></span>
-        <div class="ng-center"></div>
-        <div class="ng-right">
-          <button class="ng-expand-btn" type="button">Expand</button>
-        </div>
-      </div>
-      <div class="ng-wrap">
-        <div class="ng-status">Loading node graph\u2026</div>
-      </div>
-    `,this._titleEl=this._root.querySelector(".ng-title"),this._wrap=this._root.querySelector(".ng-wrap"),this._stepping=new c({wrapEl:this._wrap,centerEl:this._root.querySelector(".ng-center"),canStep:()=>this.canStep})}connectedCallback(){this._render()}attributeChangedCallback(e,t,s){t!==s&&this.isConnected&&this._render()}get src(){return this.getAttribute("src")||""}get stepsSrc(){return this.getAttribute("steps-src")||""}get startStep(){return Number(this.getAttribute("start-step")||0)}get canStep(){return this.getAttribute("can-step")==="false"||!0}async _render(){if(this._titleEl.textContent=this.src.split("/").pop()||"node graph",!this.src){this._wrap.innerHTML='<div class="ng-status">No src provided.</div>';return}try{let e=this.stepsSrc?await fetch(this.stepsSrc).then(i=>i.json()):null,t=Array.isArray(e?.steps)?e.steps:[],s=this.src.startsWith("https://voronoi.ch/graph.php?src=")?this.src:`https://voronoi.ch/graph.php?src=${this.src}`,n=await fetch(s).then(i=>i.json()),r=typeof n=="object"&&n!==null?n:null,o=this._computeBounds(r);this._wrap.innerHTML="";let a=document.createElement("div");a.className="ng-canvas",a.style.width=o.canvasW+"px",a.style.height=o.canvasH+"px",a.textContent=`Loaded graph with ${r?Object.keys(r).length:"?"} visuals. ${t.length} steps. Start step: ${this.startStep}. Can step: ${this.canStep}.`,Object.entries(r).forEach(([i,l])=>{let p=document.createElement("div");p.className="ng-node",p.dataset.nodeId=i,p.style.left=l.pos.x+o.offsetX+"px",p.style.top=l.pos.y+o.offsetY+"px",p.innerHTML=l.svg,a.appendChild(p)}),this._wrap.appendChild(a),this._stepping.init(t,this.startStep),this.dispatchEvent(new CustomEvent("node-graph:ready",{detail:{visuals:r,steps:t,startStep:this.startStep,canStep:this.canStep},bubbles:!0,composed:!0}))}catch(e){this._wrap.innerHTML=`<div class="ng-status">Failed to load: ${String(e)}</div>`,console.error("[node-graph]",e)}}_computeBounds(e){let t=Object.values(e).map(i=>i.pos.x),s=Object.values(e).map(i=>i.pos.y),n=t.length?Math.min(...t):0,r=s.length?Math.min(...s):0,o=t.length?Math.max(...t):0,a=s.length?Math.max(...s):0;return{offsetX:-n+20,offsetY:-r+20,canvasW:o-n+20*2,canvasH:a-r+20*2}}};customElements.define("node-graph",d);export{d as NodeGraph};
+}`;var b=`<div class="ng-head">\r
+  <span class="ng-title">\r
+    <span class="ng-icon-slot" data-icon="git-branch"></span>\r
+    <span class="ng-title-text"></span>\r
+  </span>\r
+  <div class="ng-center">\r
+    <button class="ng-walklink" type="button" hidden>\r
+      <span class="ng-icon-slot" data-icon="play"></span>\r
+      <span>Start walkthrough \u2192</span>\r
+    </button>\r
+    <div class="ng-stepper" hidden>\r
+      <button class="ng-stepbtn ng-prev" type="button" aria-label="Previous step">\r
+        <span class="ng-icon-slot" data-icon="chevron-left"></span>\r
+      </button>\r
+      <span class="ng-steplabel">\r
+        <span class="ng-stepcount"></span>\r
+        <span class="ng-steptext"></span>\r
+      </span>\r
+      <button class="ng-stepbtn ng-next" type="button" aria-label="Next step">\r
+        <span class="ng-icon-slot" data-icon="chevron-right"></span>\r
+      </button>\r
+    </div>\r
+  </div>\r
+  <div class="ng-right">\r
+    <button class="ng-expand-btn" type="button">\r
+      <span class="ng-icon-slot" data-icon="maximize-2"></span>\r
+      Expand\r
+    </button>\r
+  </div>\r
+</div>\r
+<div class="ng-wrap">\r
+  <div class="ng-status">Loading node graph\u2026</div>\r
+</div>`;var d=class{constructor({wrapEl:t,walklinkEl:e,stepperEl:s,prevBtn:a,nextBtn:n,stepcountEl:r,steptextEl:i,canStep:o,onActiveIds:p}){this._wrapEl=t,this._walklinkEl=e,this._stepperEl=s,this._prevBtn=a,this._nextBtn=n,this._stepcountEl=r,this._steptextEl=i,this._canStep=o,this._onActiveIds=p||null,this.steps=[],this.mode="none",this.currentStep=0,this._allIds=[],this._walklinkEl.addEventListener("click",()=>this._startWalkthrough()),this._prevBtn.addEventListener("click",()=>this._goStep(-1)),this._nextBtn.addEventListener("click",()=>this._goStep(1))}_notify(t){this._onActiveIds&&this._onActiveIds(t)}init(t,e,s=[]){this.steps=t,this._allIds=s,t.length?e===0?(this.mode="whole",this._clearDim(),this._notify(this._allIds)):(this.mode="stepping",this.currentStep=Math.min(Math.max(e-1,0),t.length-1),this._applyDim(t[this.currentStep].ids),this._notify(t[this.currentStep].ids)):(this.mode="none",this._clearDim(),this._notify(this._allIds)),this._syncUI()}_applyDim(t){this._wrapEl.querySelectorAll(".ng-node").forEach(e=>{e.classList.toggle("ng-dim",!t.includes(e.dataset.nodeId))}),this._wrapEl.querySelectorAll(".ng-edge").forEach(e=>{let s=t.includes(e.dataset.from)&&t.includes(e.dataset.to);e.style.opacity=s?"1":"0.25"})}_clearDim(){this._wrapEl.querySelectorAll(".ng-node").forEach(t=>t.classList.remove("ng-dim")),this._wrapEl.querySelectorAll(".ng-edge").forEach(t=>t.style.opacity="1")}_syncUI(){if(this.mode==="none"){this._walklinkEl.hidden=!0,this._stepperEl.hidden=!0;return}if(this.mode==="whole"){let s=this._canStep();this._walklinkEl.hidden=!s,this._stepperEl.hidden=!0;return}this._walklinkEl.hidden=!0,this._stepperEl.hidden=!1;let t=this.steps[this.currentStep];this._stepcountEl.textContent=`step ${this.currentStep+1} of ${this.steps.length}`,this._steptextEl.textContent=t.label||"";let e=this._canStep();this._prevBtn.disabled=!e,this._nextBtn.disabled=!e||this.currentStep===this.steps.length-1}_startWalkthrough(){this.mode="stepping",this.currentStep=0,this._applyDim(this.steps[0].ids),this._notify(this.steps[0].ids),this._syncUI()}_exitToWhole(){this.mode="whole",this._clearDim(),this._notify(this._allIds),this._syncUI()}_goStep(t){let e=this.currentStep+t;if(e<0){this._exitToWhole();return}e>this.steps.length-1||(this.currentStep=e,this._applyDim(this.steps[this.currentStep].ids),this._notify(this.steps[this.currentStep].ids),this._syncUI())}};function w(l,t,e,s){let a=e.map(h=>t[h]).filter(Boolean);if(!a.length)return null;let n=1/0,r=1/0,i=-1/0,o=-1/0;a.forEach(h=>{let f=h.pos.x+s.offsetX,m=h.pos.y+s.offsetY;n=Math.min(n,f),r=Math.min(r,m),i=Math.max(i,f+(h.width||160)),o=Math.max(o,m+(h.height||90))});let p=60;n-=p,r-=p,i+=p,o+=p;let x=i-n,y=o-r,g=l.clientWidth,u=l.clientHeight;if(!x||!y||!g||!u)return null;let c=Math.min(g/x,u/y);c=Math.min(Math.max(c,.25),1.5);let E=(n+i)/2,M=(r+o)/2;return{x:g/2-E*c,y:u/2-M*c,scale:c}}function S(l,t){t&&(l.style.transform=`translate(${t.x}px, ${t.y}px) scale(${t.scale})`)}var C={"chevron-left":'<polyline points="15 18 9 12 15 6"/>',"chevron-right":'<polyline points="9 18 15 12 9 6"/>',play:'<polygon points="6 3 20 12 6 21 6 3"/>',"maximize-2":`
+    <polyline points="15 3 21 3 21 9"/>
+    <polyline points="9 21 3 21 3 15"/>
+    <line x1="21" y1="3" x2="14" y2="10"/>
+    <line x1="3" y1="21" x2="10" y2="14"/>
+  `,"git-branch":`
+    <line x1="6" y1="3" x2="6" y2="15"/>
+    <circle cx="18" cy="6" r="3"/>
+    <circle cx="6" cy="18" r="3"/>
+    <path d="M18 9a9 9 0 0 1-9 9"/>
+  `};function k(l,t=14){let e=C[l];return e?`<svg class="ng-icon" width="${t}" height="${t}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${e}</svg>`:""}var _=class extends HTMLElement{static get observedAttributes(){return["src","steps-src","start-step","can-step","width","height"]}constructor(){super(),this._root=this.attachShadow({mode:"open"}),this._root.innerHTML=b;let t=document.createElement("style");t.textContent=v,this._root.prepend(t),this._root.querySelectorAll(".ng-icon-slot").forEach(e=>{e.outerHTML=k(e.dataset.icon)}),this._titleEl=this._root.querySelector(".ng-title"),this._wrap=this._root.querySelector(".ng-wrap"),this._statusEl=this._root.querySelector(".ng-status"),this._stepping=new d({wrapEl:this._wrap,walklinkEl:this._root.querySelector(".ng-walklink"),stepperEl:this._root.querySelector(".ng-stepper"),prevBtn:this._root.querySelector(".ng-prev"),nextBtn:this._root.querySelector(".ng-next"),stepcountEl:this._root.querySelector(".ng-stepcount"),steptextEl:this._root.querySelector(".ng-steptext"),canStep:()=>this.canStep,onActiveIds:e=>{if(!this._canvas||!this._visuals||!this._bounds)return;let s=w(this._wrap,this._visuals,e,this._bounds);S(this._canvas,s)}}),this._applySize()}connectedCallback(){this._render()}attributeChangedCallback(t,e,s){e!==s&&(name==="width"||name==="height"?this._applySize():this.isConnected&&this._render())}get src(){return this.getAttribute("src")||""}get stepsSrc(){return this.getAttribute("steps-src")||""}get startStep(){return Number(this.getAttribute("start-step")||0)}get canStep(){return this.getAttribute("can-step")==="false"||!0}get width(){return this.getAttribute("width")||"100%"}get height(){return this.getAttribute("height")||"350px"}_applySize(){this.style.width=this.width,this.style.height=this.height}async _render(){if(this._titleEl.textContent=this.src.split("/").pop()||"node graph",!this.src){this._wrap.innerHTML='<div class="ng-status">No src provided.</div>';return}try{let t=this.stepsSrc?await fetch(this.stepsSrc).then(n=>n.json()):null,e=Array.isArray(t?.steps)?t.steps:[],s=this.src.startsWith("https://voronoi.ch/graph.php?src=")?this.src:`https://voronoi.ch/graph.php?src=${this.src}`,a=await fetch(s).then(n=>n.json());this._visuals=typeof a=="object"&&a!==null?a:null,this._bounds=this._computeBounds(this._visuals),this._wrap.innerHTML="",this._canvas=document.createElement("div"),this._canvas.className="ng-canvas",this._canvas.style.width=this._bounds.canvasW+"px",this._canvas.style.height=this._bounds.canvasH+"px",this._statusEl.textContent=`Loaded graph with ${this._visuals?Object.keys(this._visuals).length:"?"} visuals. ${e.length} steps. Start step: ${this.startStep}. Can step: ${this.canStep}.`,Object.entries(this._visuals).forEach(([n,r])=>{let i=document.createElement("div");i.className="ng-node",i.dataset.nodeId=n,i.style.left=r.pos.x+this._bounds.offsetX+"px",i.style.top=r.pos.y+this._bounds.offsetY+"px",i.innerHTML=r.svg,this._canvas.appendChild(i)}),this._wrap.appendChild(this._canvas),this._stepping.init(e,this.startStep,Object.keys(this._visuals)),this.dispatchEvent(new CustomEvent("node-graph:ready",{detail:{visuals:this._visuals,steps:e,startStep:this.startStep,canStep:this.canStep},bubbles:!0,composed:!0}))}catch(t){this._wrap.innerHTML=`<div class="ng-status">Failed to load: ${String(t)}</div>`,console.error("[node-graph]",t)}}_computeBounds(t){let e=Object.values(t).map(o=>o.pos.x),s=Object.values(t).map(o=>o.pos.y),a=e.length?Math.min(...e):0,n=s.length?Math.min(...s):0,r=e.length?Math.max(...e):0,i=s.length?Math.max(...s):0;return{offsetX:-a+20,offsetY:-n+20,canvasW:r-a+20*2,canvasH:i-n+20*2}}};customElements.define("node-graph",_);export{_ as NodeGraph};
 //# sourceMappingURL=node-graph.js.map
