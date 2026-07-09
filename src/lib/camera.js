@@ -41,7 +41,7 @@ export function computeFit(viewportEl, visuals, ids, bounds) {
     if (!boxW || !boxH || !vw || !vh) return null;
 
     let scale = Math.min(vw / boxW, vh / boxH);
-    scale = Math.min(Math.max(scale, 0.25), 1.5);
+    scale = Math.min(scale, 1.5);
 
     const cx = (minX + maxX) / 2;
     const cy = (minY + maxY) / 2;
