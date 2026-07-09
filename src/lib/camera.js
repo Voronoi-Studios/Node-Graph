@@ -29,8 +29,8 @@ export function computeFit(viewportEl, visuals, ids, bounds) {
     let { minX, minY, maxX, maxY } = getVisualBounds(selectedVisuals);
 
     const pad = 60;
-    minX += bounds.offsetX - pad;
-    minY += bounds.offsetY - pad;
+    minX += bounds.offsetX + pad;
+    minY += bounds.offsetY + pad;
     maxX += bounds.offsetX + pad;
     maxY += bounds.offsetY + pad;
 
