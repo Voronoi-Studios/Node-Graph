@@ -27,7 +27,7 @@ class NodeGraph extends HTMLElement {
       slot.outerHTML = icon(slot.dataset.icon);
     });
 
-    this._titleEl = this._root.querySelector(".ng-title");
+    this._titleEl = this._root.querySelector(".ng-title-text");
     this._wrap = this._root.querySelector(".ng-wrap");
     this._statusEl = this._root.querySelector(".ng-status");
 
@@ -61,7 +61,7 @@ class NodeGraph extends HTMLElement {
     }
     this._scheduleRender();
   }
-  
+
   _scheduleRender() {
     if (this._renderScheduled) return;
     this._renderScheduled = true;
