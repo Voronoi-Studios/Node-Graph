@@ -40,14 +40,16 @@ class NodeGraph extends HTMLElement {
       stepcountEl: this._root.querySelector(".ng-stepcount"),
       steptextEl: this._root.querySelector(".ng-steptext"),
       canStep: () => this.canStep,
-      updateCam: (ids) => {
-        if (!this._canvas || !this._visuals || !this._bounds) return;
-        const camera = computeFit(this._wrap, this._visuals, ids, this._bounds);
-        applyCamera(this._canvas, camera);
-      },
+      updateCam: (ids) => this.updateCam(ids),
     });
 
     this._applySize();
+  }
+
+  updateCam(ids) {
+    if (!this._canvas || !this._visuals || !this._bounds) return;
+    const camera = computeFit(this._wrap, this._visuals, ids, this._bounds);
+    applyCamera(this._canvas, camera);
   }
 
   connectedCallback() {
@@ -151,6 +153,7 @@ class NodeGraph extends HTMLElement {
       this._wrap.appendChild(this._canvas);
 
       this._stepping.init(steps, this.startStep, Object.keys(this._visuals));
+      this.updateCam(Object.keys(this._visuals));
 
       this.dispatchEvent(
         new CustomEvent("node-graph:ready", {
