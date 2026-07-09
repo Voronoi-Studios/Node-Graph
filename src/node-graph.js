@@ -4,8 +4,8 @@
 import STYLES from "./styles.css";
 import TEMPLATE from "./template.html";
 import { SteppingController } from "./lib/stepping.js";
+import { computeFit, applyCamera } from "./lib/camera.js";
 import { icon } from "./lib/icons.js";
-
 
 class NodeGraph extends HTMLElement {
   static get observedAttributes() {
