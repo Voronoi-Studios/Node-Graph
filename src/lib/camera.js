@@ -1,24 +1,38 @@
+
+function getVisualBounds(visuals) {
+    const nodes = Object.values(visuals);
+
+    if (!nodes.length) {
+        return { minX: 0, minY: 0, maxX: 0, maxY: 0 };
+    }
+
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    nodes.forEach((n) => {
+        minX = Math.min(minX, n.pos.x);
+        minY = Math.min(minY, n.pos.y);
+        maxX = Math.max(maxX, n.pos.x + (n.width || 160));
+        maxY = Math.max(maxY, n.pos.y + (n.height || 90));
+    });
+
+    return { minX, minY, maxX, maxY };
+}
+
 /** Fits the bounding box of the given node ids inside the viewport, then
 * centers it.*/ 
 export function computeFit(viewportEl, visuals, ids, bounds) {
-    const items = ids.map((id) => visuals[id]).filter(Boolean);
-    if (!items.length) return null;
+    const selectedVisuals = Object.fromEntries(ids.map(id => [id, visuals[id]]).filter(([, v]) => v));
 
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    items.forEach((n) => {
-        const x = n.pos.x + bounds.offsetX;
-        const y = n.pos.y + bounds.offsetY;
-        minX = Math.min(minX, x);
-        minY = Math.min(minY, y);
-        maxX = Math.max(maxX, x + (n.width || 160));
-        maxY = Math.max(maxY, y + (n.height || 90));
-    });
+    let { minX, minY, maxX, maxY } = getVisualBounds(selectedVisuals);
 
     const pad = 60;
-    minX -= pad;
-    minY -= pad;
-    maxX += pad;
-    maxY += pad;
+    minX += bounds.offsetX - pad;
+    minY += bounds.offsetY - pad;
+    maxX += bounds.offsetX + pad;
+    maxY += bounds.offsetY + pad;
 
     const boxW = maxX - minX;
     const boxH = maxY - minY;
@@ -43,3 +57,20 @@ export function applyCamera(canvasEl, camera) {
     if (!camera) return;
     canvasEl.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`;
 }
+
+export function computeBounds(visuals) {
+    let { minX, minY, maxX, maxY } = getVisualBounds(visuals);
+
+    const pad = 60;
+    minX -= pad;
+    minY -= pad;
+    maxX += pad;
+    maxY += pad;
+
+    return {
+      offsetX: -minX,
+      offsetY: -minY,
+      canvasW: maxX - minX,
+      canvasH: maxY - minY,
+    };
+  }

@@ -4,7 +4,7 @@
 import STYLES from "./styles.css";
 import TEMPLATE from "./template.html";
 import { SteppingController } from "./lib/stepping.js";
-import { computeFit, applyCamera } from "./lib/camera.js";
+import { computeFit, applyCamera, computeBounds } from "./lib/camera.js";
 import { icon } from "./lib/icons.js";
 
 class NodeGraph extends HTMLElement {
@@ -106,7 +106,7 @@ class NodeGraph extends HTMLElement {
       const visualsFile = await fetch(srcUrl).then((src) => src.json());
       this._visuals = (typeof visualsFile === "object" && visualsFile !== null) ? visualsFile : null;
 
-      this._bounds = this._computeBounds(this._visuals);
+      this._bounds = computeBounds(this._visuals);
 
       this._wrap.innerHTML = "";
       this._canvas = document.createElement("div");
@@ -144,24 +144,6 @@ class NodeGraph extends HTMLElement {
       this._wrap.innerHTML = `<div class="ng-status">Failed to load: ${String(err)}</div>`;
       console.error("[node-graph]", err);
     }
-  }
-
-  _computeBounds(visuals) {
-    const xs = Object.values(visuals).map((n) => n.pos.x);
-    const ys = Object.values(visuals).map((n) => n.pos.y);
-    const w = 0; // Object.values(visuals).map((n) => n.width);
-    const h = 0; //Object.values(visuals).map((n) => n.height);
-    const minX = xs.length ? Math.min(...xs) : 0;
-    const minY = ys.length ? Math.min(...ys) : 0;
-    const maxX = xs.length && w.length ? Math.max(...xs) + Math.max(...w) : 0;
-    const maxY = ys.length && h.length ? Math.max(...ys) + Math.max(...h) : 0;
-
-    return {
-      offsetX: -minX + 20,
-      offsetY: -minY + 20,
-      canvasW: maxX - minX + 20 * 2,
-      canvasH: maxY - minY + 20 * 2,
-    };
   }
 }
 
