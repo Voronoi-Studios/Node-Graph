@@ -54,7 +54,7 @@ class NodeGraph extends HTMLElement {
     this._render();
   }
 
-  attributeChangedCallback(_name, oldVal, newVal) {
+  attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal) return;
     if (name === "width" || name === "height") this._applySize();
     else if (this.isConnected) this._render();
