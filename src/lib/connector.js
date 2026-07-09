@@ -10,13 +10,10 @@ export function buildConnectionsSvg(connections, visuals, bounds) {
     const visualB = visuals[c.to];
     if (!visualA || !visualB) return;
 
-    const index = visualA.outputs.indexOf(c.via);
-    const outIndex = index === -1 ? 0 : index;
-
     const x1 = visualA.x + offsetX + visualA.width + 11;
-    const y1 = visualA.y + offsetY + HEADER_HEIGHT + TOP_PAD + PIN_RADIUS - 2 + outIndex * ROW_PITCH;
+    const y1 = visualA.y + offsetY + visualA.outputs[c.via];
     const x2 = visualB.x + offsetX + 10;
-    const y2 = visualB.y + offsetY + HEADER_HEIGHT + TOP_PAD + PIN_RADIUS - 2;
+    const y2 = visualB.y + offsetY + visualB.inputs['input-0'];
     const dx = Math.abs(x2 - x1) * 0.2;
 
     parts.push(
