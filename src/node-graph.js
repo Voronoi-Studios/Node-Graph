@@ -149,12 +149,12 @@ class NodeGraph extends HTMLElement {
   _computeBounds(visuals) {
     const xs = Object.values(visuals).map((n) => n.pos.x);
     const ys = Object.values(visuals).map((n) => n.pos.y);
-    const w = Object.values(visuals).map((n) => n.width);
-    const h = Object.values(visuals).map((n) => n.height);
+    const w = 0; // Object.values(visuals).map((n) => n.width);
+    const h = 0; //Object.values(visuals).map((n) => n.height);
     const minX = xs.length ? Math.min(...xs) : 0;
     const minY = ys.length ? Math.min(...ys) : 0;
-    const maxX = xs.length ? Math.max(...xs) + Math.max(...w) : 0;
-    const maxY = ys.length ? Math.max(...ys) + Math.max(...h) : 0;
+    const maxX = xs.length && w.length ? Math.max(...xs) + Math.max(...w) : 0;
+    const maxY = ys.length && h.length ? Math.max(...ys) + Math.max(...h) : 0;
 
     return {
       offsetX: -minX + 20,
