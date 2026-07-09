@@ -10,10 +10,13 @@ const PATHS = {
     <line x1="3" y1="21" x2="10" y2="14"/>
   `,
   "git-branch": `
-    <line x1="6" y1="3" x2="6" y2="15"/>
-    <circle cx="18" cy="6" r="3"/>
-    <circle cx="6" cy="18" r="3"/>
-    <path d="M18 9a9 9 0 0 1-9 9"/>
+	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	<path d="M5 18a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+	<path d="M5 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+	<path d="M15 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+	<path d="M7 8l0 8" />
+	<path d="M9 18h6a2 2 0 0 0 2 -2v-5" />
+	<path d="M14 14l3 -3l3 3" />
   `,
 };
  
