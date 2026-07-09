@@ -4,7 +4,6 @@
 import STYLES from "./styles.css";
 import TEMPLATE from "./template.html";
 import { SteppingController } from "./lib/stepping.js";
-import { computeFit, applyCamera } from "./lib/camera.js";
 import { icon } from "./lib/icons.js";
 
 
@@ -40,7 +39,7 @@ class NodeGraph extends HTMLElement {
       stepcountEl: this._root.querySelector(".ng-stepcount"),
       steptextEl: this._root.querySelector(".ng-steptext"),
       canStep: () => this.canStep,
-      onActiveIds: (ids) => {
+      updateCam: (ids) => {
         if (!this._canvas || !this._visuals || !this._bounds) return;
         const camera = computeFit(this._wrap, this._visuals, ids, this._bounds);
         applyCamera(this._canvas, camera);
@@ -150,10 +149,12 @@ class NodeGraph extends HTMLElement {
   _computeBounds(visuals) {
     const xs = Object.values(visuals).map((n) => n.pos.x);
     const ys = Object.values(visuals).map((n) => n.pos.y);
+    const w = Object.values(visuals).map((n) => n.width);
+    const h = Object.values(visuals).map((n) => n.height);
     const minX = xs.length ? Math.min(...xs) : 0;
     const minY = ys.length ? Math.min(...ys) : 0;
-    const maxX = xs.length ? Math.max(...xs) : 0;
-    const maxY = ys.length ? Math.max(...ys) : 0;
+    const maxX = xs.length ? Math.max(...xs) + Math.max(...w) : 0;
+    const maxY = ys.length ? Math.max(...ys) + Math.max(...h) : 0;
 
     return {
       offsetX: -minX + 20,

@@ -8,7 +8,7 @@ export class SteppingController {
         stepcountEl,
         steptextEl,
         canStep,
-        onActiveIds,
+        updateCam,
     }) {
         this._wrapEl = wrapEl;
         this._walklinkEl = walklinkEl;
@@ -18,7 +18,7 @@ export class SteppingController {
         this._stepcountEl = stepcountEl;
         this._steptextEl = steptextEl;
         this._canStep = canStep;
-        this._onActiveIds = onActiveIds || null; // (ids) => void, camera fit lives here
+        this._updateCam = updateCam;
 
         this.steps = [];
         this.mode = "none";
@@ -28,10 +28,6 @@ export class SteppingController {
         this._walklinkEl.addEventListener("click", () => this._startWalkthrough());
         this._prevBtn.addEventListener("click", () => this._goStep(-1));
         this._nextBtn.addEventListener("click", () => this._goStep(1));
-    }
-
-    _notify(ids) {
-        if (this._onActiveIds) this._onActiveIds(ids);
     }
 
 
@@ -46,16 +42,16 @@ export class SteppingController {
         if (!steps.length) {
             this.mode = "none";
             this._clearDim();
-            this._notify(this._allIds);
+            this._updateCam(this._allIds);
         } else if (startStep === 0) {
             this.mode = "whole";
             this._clearDim();
-            this._notify(this._allIds);
+            this._updateCam(this._allIds);
         } else {
             this.mode = "stepping";
             this.currentStep = Math.min(Math.max(startStep - 1, 0), steps.length - 1);
             this._applyDim(steps[this.currentStep].ids);
-            this._notify(steps[this.currentStep].ids);
+            this._updateCam(steps[this.currentStep].ids);
         }
     
         this._syncUI();
@@ -110,14 +106,14 @@ export class SteppingController {
         this.mode = "stepping";
         this.currentStep = 0;
         this._applyDim(this.steps[0].ids);
-        this._notify(this.steps[0].ids);
+        this._updateCam(this.steps[0].ids);
         this._syncUI();
     }
     
     _exitToWhole() {
         this.mode = "whole";
         this._clearDim();
-        this._notify(this._allIds);
+        this._updateCam(this._allIds);
         this._syncUI();
     }
     
@@ -130,7 +126,7 @@ export class SteppingController {
         if (next > this.steps.length - 1) return;
         this.currentStep = next;
         this._applyDim(this.steps[this.currentStep].ids);
-        this._notify(this.steps[this.currentStep].ids);
+        this._updateCam(this.steps[this.currentStep].ids);
         this._syncUI();
     }
 }
