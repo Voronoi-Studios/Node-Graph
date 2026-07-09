@@ -51,14 +51,26 @@ class NodeGraph extends HTMLElement {
   }
 
   connectedCallback() {
-    this._render();
+    this._scheduleRender();
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal) return;
-    if (name === "width" || name === "height") this._applySize();
-    else if (this.isConnected) this._render();
+    if (name === "width" || name === "height") { 
+      this._applySize(); return; 
+    }
+    this._scheduleRender();
   }
+  
+  _scheduleRender() {
+    if (this._renderScheduled) return;
+    this._renderScheduled = true;
+    queueMicrotask(() => {
+      this._renderScheduled = false;
+      if (this.isConnected) this._render();
+    });
+  }
+
 
   get src() {
     return this.getAttribute("src") || "";
