@@ -15,5 +15,11 @@ Usage:
 </node-graph>
 ```
 
-
+Currently, only paths from these whitelisted hosts are allowed:
+- raw.githubusercontent.com
+- github.com
+- githubusercontent.com
+- cdn.discordapp.com
+- cdn.jsdelivr.net
+- wiki.hytalemodding.dev
 
