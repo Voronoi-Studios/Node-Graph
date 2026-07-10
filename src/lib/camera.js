@@ -36,8 +36,10 @@ export function computeFit(viewportEl, visuals, ids, bounds) {
 
     const boxW = maxX - minX;
     const boxH = maxY - minY;
+
     const vw = viewportEl.clientWidth;
     const vh = viewportEl.clientHeight;
+
     if (!boxW || !boxH || !vw || !vh) return null;
 
     let scale = Math.min(vw / boxW, vh / boxH);
@@ -47,10 +49,17 @@ export function computeFit(viewportEl, visuals, ids, bounds) {
     const cy = (minY + maxY) / 2;
 
     return {
-        x: vw / 2 - cx * scale,
-        y: vh / 2 - cy * scale,
+        x: vw / 2 - cx,
+        y: vh / 2 - cy,
         scale,
     };
+
+    // Top left (transform-origin: 0 0;)
+    // return {
+    //     x: vw / 2 - cx * scale,
+    //     y: vh / 2 - cy * scale,
+    //     scale,
+    // };
 }
 
 export function applyCamera(canvasEl, camera) {
