@@ -181,7 +181,7 @@ var v=`:host {\r
 }`;var y=`<div class="ng-head">\r
     <span class="ng-title">\r
         <span style="top: 6px;">\r
-            <span class="ng-icon-slot" data-icon="git-branch"></span>\r
+            <span class="ng-icon-slot" data-icon="git-branch"> </span>\r
         </span>\r
         <span class="ng-title-text"></span>\r
     </span>\r
