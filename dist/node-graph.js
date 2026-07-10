@@ -179,39 +179,39 @@ var v=`:host {\r
 .ng-edge {\r
     transition: opacity .2s ease;\r
 }`;var y=`<div class="ng-head">\r
-  <span class="ng-title">\r
-    <span style="top: 6px;">\r
-    \xA7<span class="ng-icon-slot" data-icon="git-branch"></span>\r
+    <span class="ng-title">\r
+        <span style="top: 6px;">\r
+            <span class="ng-icon-slot" data-icon="git-branch"></span>\r
+        </span>\r
+        <span class="ng-title-text"></span>\r
     </span>\r
-    <span class="ng-title-text"></span>\r
-  </span>\r
-  <div class="ng-center">\r
-    <button class="ng-walklink" type="button" hidden>\r
-      <span class="ng-icon-slot" data-icon="play"></span>\r
-      <span>Start walkthrough \u2192</span>\r
-    </button>\r
-    <div class="ng-stepper" hidden>\r
-      <button class="ng-stepbtn ng-prev" type="button" aria-label="Previous step">\r
-        <span class="ng-icon-slot" data-icon="chevron-left"></span>\r
-      </button>\r
-      <span class="ng-steplabel">\r
-        <span class="ng-stepcount"></span>\r
-        <span class="ng-steptext"></span>\r
-      </span>\r
-      <button class="ng-stepbtn ng-next" type="button" aria-label="Next step">\r
-        <span class="ng-icon-slot" data-icon="chevron-right"></span>\r
-      </button>\r
+    <div class="ng-center">\r
+        <button class="ng-walklink" type="button" hidden>\r
+        <span class="ng-icon-slot" data-icon="play"></span>\r
+        <span>Start walkthrough \u2192</span>\r
+        </button>\r
+        <div class="ng-stepper" hidden>\r
+        <button class="ng-stepbtn ng-prev" type="button" aria-label="Previous step">\r
+            <span class="ng-icon-slot" data-icon="chevron-left"></span>\r
+        </button>\r
+        <span class="ng-steplabel">\r
+            <span class="ng-stepcount"></span>\r
+            <span class="ng-steptext"></span>\r
+        </span>\r
+        <button class="ng-stepbtn ng-next" type="button" aria-label="Next step">\r
+            <span class="ng-icon-slot" data-icon="chevron-right"></span>\r
+        </button>\r
+        </div>\r
     </div>\r
-  </div>\r
-  <div class="ng-right">\r
-    <button class="ng-expand-btn" type="button">\r
-      <span class="ng-icon-slot" data-icon="maximize-2"></span>\r
-      Expand\r
-    </button>\r
-  </div>\r
+    <div class="ng-right">\r
+        <button class="ng-expand-btn" type="button">\r
+        <span class="ng-icon-slot" data-icon="maximize-2"></span>\r
+        Expand\r
+        </button>\r
+    </div>\r
 </div>\r
 <div class="ng-wrap">\r
-  <div class="ng-status">Loading node graph\u2026</div>\r
+    <div class="ng-status">Loading node graph\u2026</div>\r
 </div>`;function b(o,t,e){let{offsetX:s,offsetY:r,canvasW:i,canvasH:n}=e,l=[`<svg width="${i}" height="${n}" style="position:absolute;top:0;left:0;pointer-events:none" xmlns="http://www.w3.org/2000/svg"><g stroke="#f0f0f0" stroke-width="3" fill="none">`];return o.forEach(a=>{let p=t[a.from],c=t[a.to];if(!p||!c)return;let u=p.pos.x+s+p.width+11,g=p.pos.y+r+p.outputs[a.via],d=c.pos.x+s+10,h=c.pos.y+r+c.inputs["input-0"],_=Math.abs(d-u)*.2;l.push(`<path class="ng-edge" data-from="${a.from}" data-to="${a.to}" d="M${u} ${g} C${u+_} ${g} ${d-_} ${h} ${d} ${h}"/>`)}),l.push("</g></svg>"),l.join("")}var x=class{constructor({wrapEl:t,walklinkEl:e,stepperEl:s,prevBtn:r,nextBtn:i,stepcountEl:n,steptextEl:l,canStep:a,updateCam:p}){this._wrapEl=t,this._walklinkEl=e,this._stepperEl=s,this._prevBtn=r,this._nextBtn=i,this._stepcountEl=n,this._steptextEl=l,this._canStep=a,this._updateCam=p,this.steps=[],this.mode="none",this.currentStep=0,this._allIds=[],this._walklinkEl.addEventListener("click",()=>this._startWalkthrough()),this._prevBtn.addEventListener("click",()=>this._goStep(-1)),this._nextBtn.addEventListener("click",()=>this._goStep(1))}init(t,e,s=[]){this.steps=t,this._allIds=s,t.length?e===0?(this.mode="whole",this._clearDim(),this._updateCam(this._allIds)):(this.mode="stepping",this.currentStep=Math.min(Math.max(e-1,0),t.length-1),this._applyDim(t[this.currentStep].ids),this._updateCam(t[this.currentStep].ids)):(this.mode="none",this._clearDim(),this._updateCam(this._allIds)),this._syncUI()}_applyDim(t){this._wrapEl.querySelectorAll(".ng-node").forEach(e=>{e.classList.toggle("ng-dim",!t.includes(e.dataset.nodeId))}),this._wrapEl.querySelectorAll(".ng-edge").forEach(e=>{let s=t.includes(e.dataset.from)&&t.includes(e.dataset.to);e.style.opacity=s?"1":"0.25"})}_clearDim(){this._wrapEl.querySelectorAll(".ng-node").forEach(t=>t.classList.remove("ng-dim")),this._wrapEl.querySelectorAll(".ng-edge").forEach(t=>t.style.opacity="1")}_syncUI(){if(this.mode==="none"){this._walklinkEl.hidden=!0,this._stepperEl.hidden=!0;return}if(this.mode==="whole"){let s=this._canStep();this._walklinkEl.hidden=!s,this._stepperEl.hidden=!0;return}this._walklinkEl.hidden=!0,this._stepperEl.hidden=!1;let t=this.steps[this.currentStep];this._stepcountEl.textContent=`step ${this.currentStep+1} of ${this.steps.length}`,this._steptextEl.textContent=t.label||"";let e=this._canStep();this._prevBtn.disabled=!e,this._nextBtn.disabled=!e||this.currentStep===this.steps.length-1}_startWalkthrough(){this.mode="stepping",this.currentStep=0,this._applyDim(this.steps[0].ids),this._updateCam(this.steps[0].ids),this._syncUI()}_exitToWhole(){this.mode="whole",this._clearDim(),this._updateCam(this._allIds),this._syncUI()}_goStep(t){let e=this.currentStep+t;if(e<0){this._exitToWhole();return}e>this.steps.length-1||(this.currentStep=e,this._applyDim(this.steps[this.currentStep].ids),this._updateCam(this.steps[this.currentStep].ids),this._syncUI())}};function w(o){let t=Object.values(o);if(!t.length)return{minX:0,minY:0,maxX:0,maxY:0};let e=1/0,s=1/0,r=-1/0,i=-1/0;return t.forEach(n=>{e=Math.min(e,n.pos.x),s=Math.min(s,n.pos.y),r=Math.max(r,n.pos.x+(n.width||160)),i=Math.max(i,n.pos.y+(n.height||90))}),{minX:e,minY:s,maxX:r,maxY:i}}function S(o,t,e,s){let r=Object.fromEntries(e.map(f=>[f,t[f]]).filter(([,f])=>f)),{minX:i,minY:n,maxX:l,maxY:a}=w(r),p=60;i+=s.offsetX-p,n+=s.offsetY-p,l+=s.offsetX+p,a+=s.offsetY+p;let c=l-i,u=a-n,g=o.clientWidth,d=o.clientHeight;if(!c||!u||!g||!d)return null;let h=Math.min(g/c,d/u);h=Math.min(h,1.5);let _=(i+l)/2,M=(n+a)/2;return{x:g/2-_*h,y:d/2-M*h,scale:h}}function k(o,t){t&&(o.style.transform=`translate(${t.x}px, ${t.y}px) scale(${t.scale})`)}function E(o){let{minX:t,minY:e,maxX:s,maxY:r}=w(o),i=60;return t-=i,e-=i,s+=i,r+=i,{offsetX:-t,offsetY:-e,canvasW:s-t,canvasH:r-e}}var L={"chevron-left":'<polyline points="15 18 9 12 15 6"/>',"chevron-right":'<polyline points="9 18 15 12 9 6"/>',play:'<polygon points="6 3 20 12 6 21 6 3"/>',"maximize-2":`
     <polyline points="15 3 21 3 21 9"/>
     <polyline points="9 21 3 21 3 15"/>
