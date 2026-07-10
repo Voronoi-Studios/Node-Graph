@@ -3,8 +3,10 @@
 
 import STYLES from "./styles.css";
 import TEMPLATE from "./template.html";
-import { buildConnectionsSvg } from "./lib/connector.js";
 import { SteppingController } from "./lib/stepping.js";
+import { ExpandOverlay } from "./lib/expand-overlay.js";
+import { buildConnectionsSvg } from "./lib/connector.js";
+import { attachPanZoom } from "./lib/pan-zoom.js";
 import { computeFit, applyCamera, computeBounds } from "./lib/camera.js";
 import { icon } from "./lib/icons.js";
 
@@ -40,17 +42,46 @@ class NodeGraph extends HTMLElement {
       stepcountEl: this._root.querySelector(".ng-stepcount"),
       steptextEl: this._root.querySelector(".ng-steptext"),
       canStep: () => this.canStep,
-      updateCam: (ids) => {
-        if (!this._canvas || !this._visuals || !this._bounds) return;
-        const camera = computeFit(this._wrap, this._visuals, ids, this._bounds);
-        applyCamera(this._canvas, camera);
+      updateCam: (ids) => this._applyCameraFit(ids),
+    });
+
+    this._panZoom = null;
+    this._expandBtnEl = this._root.querySelector(".ng-expand-btn");
+
+    this._overlay = new ExpandOverlay({
+      hostEl: this,
+      onExpanded: () => {
+        this._expandBtnEl.innerHTML = `${icon("x")}Close`;
+        // pan/zoom only ever exists while expanded, the small preview stays non-interactive on purpose
+        this._panZoom = attachPanZoom(this._wrap, this._canvas);
+        this._applyCameraFit(this._stepping.activeIds);
       },
+      onCollapsed: () => {
+        this._expandBtnEl.innerHTML = `${icon("maximize")}Expand`;
+        this._panZoom?.destroy();
+        this._panZoom = null;
+        this._applySize(); // restore attribute-driven width/height
+        this._applyCameraFit(this._stepping.activeIds);
+      },
+    });
+ 
+    this._expandBtnEl.addEventListener("click", () => {
+      if (this._overlay.expanded) this._overlay.collapse();
+      else this._overlay.expand();
     });
 
     this._applySize();
   }
 
+  _applyCameraFit(ids) {
+    if (!this._canvas || !this._visuals || !this._bounds) return;
+    const camera = computeFit(this._wrap, this._visuals, ids, this._bounds);
+    applyCamera(this._canvas, camera);
+    this._panZoom?.sync(camera);
+  }
+
   connectedCallback() {
+    if (this._hasRenderedOnce) return;
     this._scheduleRender();
   }
 
@@ -65,6 +96,7 @@ class NodeGraph extends HTMLElement {
   _scheduleRender() {
     if (this._renderScheduled) return;
     this._renderScheduled = true;
+    this._hasRenderedOnce = true;
     queueMicrotask(() => {
       this._renderScheduled = false;
       if (this.isConnected) this._render();
@@ -96,8 +128,6 @@ class NodeGraph extends HTMLElement {
     return this.getAttribute("height") || "350px";
   }
 
-
-
   _applySize() {
     this.style.width = this.width;
     this.style.height = this.height;
@@ -118,6 +148,7 @@ class NodeGraph extends HTMLElement {
       const srcUrl = !this.src.startsWith("https://voronoi.ch/graph.php?src=") ? `https://voronoi.ch/graph.php?src=${this.src}` : this.src;
       const resultFile = await fetch(srcUrl).then((src) => src.json());
       const result = (typeof resultFile === "object" && resultFile !== null) ? resultFile : null;
+      
       this._visuals = result?.visuals || {};
       this._connections = result?.connections || {};
 

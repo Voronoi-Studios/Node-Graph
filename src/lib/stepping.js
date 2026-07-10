@@ -30,6 +30,11 @@ export class SteppingController {
         this._nextBtn.addEventListener("click", () => this._goStep(1));
     }
 
+    get activeIds() {
+        if (this.mode === "stepping") return this.steps[this.currentStep]?.ids || [];
+        return this._allIds;
+    }
+
 
     /** Called once per _render() with the freshly-loaded steps, the
      * requested start step (1-indexed attribute value; 0 means "whole"),

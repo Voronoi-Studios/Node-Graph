@@ -3,12 +3,13 @@ const PATHS = {
   "chevron-left": `<polyline points="15 18 9 12 15 6"/>`,
   "chevron-right": `<polyline points="9 18 15 12 9 6"/>`,
   "play": `<polygon points="6 3 20 12 6 21 6 3"/>`,
-  "maximize-2": `
+  "maximize": `
     <polyline points="15 3 21 3 21 9"/>
     <polyline points="9 21 3 21 3 15"/>
     <line x1="21" y1="3" x2="14" y2="10"/>
     <line x1="3" y1="21" x2="10" y2="14"/>
   `,
+  "x": `<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`,
   "git-branch": `
 	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	<path d="M5 18a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
