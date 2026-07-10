@@ -138,9 +138,6 @@ class NodeGraph extends HTMLElement {
     }
 
     try {
-      const stepsFile = this.stepsSrc ? await fetch(this.stepsSrc).then((src) => src.json()) : null;
-      const steps = Array.isArray(stepsFile?.steps) ? stepsFile.steps : [];
-
       const srcUrl = !this.src.startsWith("https://voronoi.ch/graph.php?src=") ? `https://voronoi.ch/graph.php?src=${this.src}` : this.src;
       const resultFile = await fetch(srcUrl).then((src) => src.json());
       const result = (typeof resultFile === "object" && resultFile !== null) ? resultFile : null;
