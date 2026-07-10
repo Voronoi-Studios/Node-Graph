@@ -43,3 +43,9 @@ DOMPurify.sanitize(html, {
 > `cdn.jsdelivr.net`\
 > `wiki.hytalemodding.dev`
 
+$${\color{gray}\begin{gathered}
+AI \space Notice:\\
+A \space first \space draft \space was \space initially \space created \space with \space AI \space assistance,\\
+since \space then \space my \space stance \space on \space AI \space has \space strongly \space shifted, \space so \space I \\
+removed \space or \space rewrote \space those \space parts \space to \space my \space best \space ability.
+\end{gathered}}$$
