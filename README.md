@@ -5,4 +5,15 @@ Browse them directly in the browser.
 
 Also allows for a steps json, so groups of nodes can be faded out or highlighted for educational purposes.
 
+Usage:
+```html
+<node-graph
+  src="path/graph.json"
+  steps-src="path/steps.json"
+  start-step="0"
+  can-step="true">
+</node-graph>
+```
+
+
 
