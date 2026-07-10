@@ -1,5 +1,5 @@
 // node-graph.js
-// How to use: <node-graph src="..." steps-src="..." start-step="0" can-step="true"></node-graph>
+// How to use: <node-graph src="..." start-step="0" can-step="true"></node-graph>
 
 import STYLES from "./styles.css";
 import TEMPLATE from "./template.html";
@@ -12,7 +12,7 @@ import { icon } from "./lib/icons.js";
 
 class NodeGraph extends HTMLElement {
   static get observedAttributes() {
-    return ["src", "steps-src", "start-step", "can-step", "width", "height"];
+    return ["src", "start-step", "can-step", "width", "height"];
   }
 
 
@@ -108,10 +108,6 @@ class NodeGraph extends HTMLElement {
     return this.getAttribute("src") || "";
   }
 
-  get stepsSrc() {
-    return this.getAttribute("steps-src") || "";
-  }
-
   get startStep() {
     return Number(this.getAttribute("start-step") || 0);
   }
@@ -151,6 +147,7 @@ class NodeGraph extends HTMLElement {
       
       this._visuals = result?.visuals || {};
       this._connections = result?.connections || {};
+      this._steps = Array.isArray(result?.steps) ? result?.steps : [];
 
       this._bounds = computeBounds(this._visuals);
 
@@ -164,7 +161,7 @@ class NodeGraph extends HTMLElement {
       this._statusEl.textContent = `
         Loaded graph with ${this._visuals ? Object.keys(this._visuals).length : "?"} visuals. 
         ${this._connections ? Object.keys(this._connections).length : "?"} connections. 
-        ${steps.length} steps. 
+        ${this._steps.length} steps. 
         Start step: ${this.startStep}. 
         Can step: ${this.canStep}.
       `;
@@ -181,11 +178,11 @@ class NodeGraph extends HTMLElement {
 
       this._wrap.appendChild(this._canvas);
 
-      this._stepping.init(steps, this.startStep, Object.keys(this._visuals));
+      this._stepping.init(this._steps, this.startStep, Object.keys(this._visuals));
 
       this.dispatchEvent(
         new CustomEvent("node-graph:ready", {
-          detail: { visuals: this._visuals, steps, startStep: this.startStep, canStep: this.canStep },
+          detail: { visuals: this._visuals, steps: this._steps, startStep: this.startStep, canStep: this.canStep },
           bubbles: true,
           composed: true,
         })
