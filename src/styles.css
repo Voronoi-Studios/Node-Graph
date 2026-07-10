@@ -162,8 +162,7 @@
 
 .ng-canvas {
     position: relative;
-    /*transform-origin: 0 0;*/
-    transform-origin: center center;
+    transform-origin: 0 0;
     transition: transform .4s cubic-bezier(.22, .8, .2, 1);
 }
 

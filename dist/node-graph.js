@@ -162,8 +162,7 @@ var S=`:host {\r
 \r
 .ng-canvas {\r
     position: relative;\r
-    /*transform-origin: 0 0;*/\r
-    transform-origin: center center;\r
+    transform-origin: 0 0;\r
     transition: transform .4s cubic-bezier(.22, .8, .2, 1);\r
 }\r
 \r
