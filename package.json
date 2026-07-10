@@ -1,6 +1,6 @@
 {
   "name": "node-graph",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Framework-agnostic Web Component for embedding the node graph, distributed via jsDelivr off GitHub tags.",
   "type": "module",
   "private": true,
