@@ -43,6 +43,8 @@ DOMPurify.sanitize(html, {
 > `cdn.jsdelivr.net`\
 > `wiki.hytalemodding.dev`
 
+
+
 $${\color{gray}\begin{gathered}
 AI \space Notice:\\
 A \space first \space draft \space was \space initially \space created \space with \space AI \space assistance,\\
