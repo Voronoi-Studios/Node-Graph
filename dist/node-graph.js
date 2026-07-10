@@ -180,7 +180,9 @@ var v=`:host {\r
     transition: opacity .2s ease;\r
 }`;var y=`<div class="ng-head">\r
   <span class="ng-title">\r
-    <span class="ng-icon-slot" data-icon="git-branch" style="top: 6px;"></span>\r
+    <span style="top: 6px;">\r
+    \xA7<span class="ng-icon-slot" data-icon="git-branch"></span>\r
+    </span>\r
     <span class="ng-title-text"></span>\r
   </span>\r
   <div class="ng-center">\r
