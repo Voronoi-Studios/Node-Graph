@@ -49,17 +49,10 @@ export function computeFit(viewportEl, visuals, ids, bounds) {
     const cy = (minY + maxY) / 2;
 
     return {
-        x: vw / 2 - cx,
-        y: vh / 2 - cy,
+        x: vw / 2 - cx * scale,
+        y: vh / 2 - cy * scale,
         scale,
     };
-
-    // Top left (transform-origin: 0 0;)
-    // return {
-    //     x: vw / 2 - cx * scale,
-    //     y: vh / 2 - cy * scale,
-    //     scale,
-    // };
 }
 
 export function applyCamera(canvasEl, camera) {
