@@ -1,9 +1,10 @@
 # Node Graph
 
-A mdx component that adds a node viewer for Hytale Node Editor json files.
-Browse them directly in the browser.
+A framework-agnostic Web Component (custom element) that renders Hytale Node Editor JSON files. It is implemented as a native custom element (class NodeGraph extends HTMLElement) and can be used from plain HTML, MDX, or any framework that can render custom elements
 
-Also allows for a steps json, so groups of nodes can be faded out or highlighted for educational purposes.
+## Features:
+- Browse Hytale Node trees directly in the browser.
+- Groups of nodes can be faded out or highlighted for educational purposes.
 
 ## Usage:
 ### Example
