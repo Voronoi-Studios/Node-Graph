@@ -4,7 +4,7 @@ git add .
 git commit -m "Build release"
 git push
 
-$latest = git describe --tags --abbrev=0
+$latest = git tag --sort=-version:refname | Select-Object -First 1
 $version = $latest.TrimStart("v")
 
 $parts = $version.Split(".")
