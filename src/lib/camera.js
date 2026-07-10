@@ -21,8 +21,7 @@ function getVisualBounds(visuals) {
     return { minX, minY, maxX, maxY };
 }
 
-/** Fits the bounding box of the given node ids inside the viewport, then
-* centers it.*/ 
+/** Fits the bounding box of the given node ids inside the viewport, then centers it.*/ 
 export function computeFit(viewportEl, visuals, ids, bounds) {
     const selectedVisuals = Object.fromEntries(ids.map(id => [id, visuals[id]]).filter(([, v]) => v));
 
