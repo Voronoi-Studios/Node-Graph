@@ -144,7 +144,7 @@ class NodeGraph extends HTMLElement {
       
       this._visuals = result?.visuals || {};
       this._connections = result?.connections || {};
-      this._steps = Array.isArray(result?.steps) ? result?.steps : [];
+      this._steps = result?.steps || [];
 
       this._bounds = computeBounds(this._visuals);
 
