@@ -73,7 +73,7 @@ class NodeGraph extends HTMLElement {
     this._applySize();
 
     if (this.forceExpand) { 
-      this._expandBtnEl.style.display = "none"; 
+      //this._expandBtnEl.style.display = "none"; 
       // this._panZoom = attachPanZoom(this._wrap, this._canvas);
       // this._applyCameraFit(this._stepping.activeIds);
     }
