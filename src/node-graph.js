@@ -183,7 +183,7 @@ class NodeGraph extends HTMLElement {
 
       if (this.forceExpand) { 
         this._overlay.expand();
-        this._expandBtnEl.hidden = true; 
+        this._expandBtnEl.visibility = 'hidden'; 
       }
 
       this.dispatchEvent(
