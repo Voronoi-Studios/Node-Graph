@@ -71,11 +71,6 @@ class NodeGraph extends HTMLElement {
     });
 
     this._applySize();
-
-    if (this.forceExpand) { 
-      // this._expandBtnEl.style.display = "none"; 
-      this._overlay.expand();
-    }
   }
 
   _applyCameraFit(ids) {
@@ -185,6 +180,11 @@ class NodeGraph extends HTMLElement {
       this._wrap.appendChild(this._canvas);
 
       this._stepping.init(this._steps, this.startStep, Object.keys(this._visuals));
+
+    if (this.forceExpand) { 
+      // this._expandBtnEl.style.display = "none"; 
+      this._overlay.expand();
+    }
 
       this.dispatchEvent(
         new CustomEvent("node-graph:ready", {
