@@ -12,7 +12,7 @@ import { icon } from "./lib/icons.js";
 
 class NodeGraph extends HTMLElement {
   static get observedAttributes() {
-    return ["src", "start-step", "can-step", "width", "height"];
+    return ["src", "start-step", "can-step", "mode", "width", "height"];
   }
 
 
@@ -48,6 +48,8 @@ class NodeGraph extends HTMLElement {
     this._panZoom = null;
     this._expandBtnEl = this._root.querySelector(".ng-expand-btn");
 
+    if (this.mode !== "dynamic") { this._expandBtnEl.style.display = "none"; }
+
     this._overlay = new ExpandOverlay({
       hostEl: this,
       onExpanded: () => {
@@ -69,6 +71,8 @@ class NodeGraph extends HTMLElement {
       if (this._overlay.expanded) this._overlay.collapse();
       else this._overlay.expand();
     });
+
+    if (this.mode === "maximized") { this._overlay.expand(); }
 
     this._applySize();
   }
@@ -114,6 +118,10 @@ class NodeGraph extends HTMLElement {
 
   get canStep() {
     return this.getAttribute("can-step") === "false" || true;
+  }
+
+  get mode() {
+    return this.getAttribute("mode") || "dynamic";
   }
 
   get width() {
