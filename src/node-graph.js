@@ -48,7 +48,6 @@ class NodeGraph extends HTMLElement {
     this._panZoom = null;
     this._expandBtnEl = this._root.querySelector(".ng-expand-btn");
 
-
     this._overlay = new ExpandOverlay({
       hostEl: this,
       onExpanded: () => {
@@ -75,8 +74,8 @@ class NodeGraph extends HTMLElement {
 
     if (this.forceExpand) { 
       this._expandBtnEl.style.display = "none"; 
-      this._panZoom = attachPanZoom(this._wrap, this._canvas);
-      this._applyCameraFit(this._stepping.activeIds);
+      // this._panZoom = attachPanZoom(this._wrap, this._canvas);
+      // this._applyCameraFit(this._stepping.activeIds);
     }
   }
 
