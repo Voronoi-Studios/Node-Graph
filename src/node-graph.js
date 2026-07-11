@@ -71,12 +71,13 @@ class NodeGraph extends HTMLElement {
       else this._overlay.expand();
     });
 
-    if (this.forceExpand) { 
-      this._expandBtnEl.style.display = "none"; 
-      this._overlay.expand();
-    }
 
-    this._applySize();
+    if (this.forceExpand) { 
+      //this._expandBtnEl.style.display = "none"; 
+      this._overlay.expand();
+    }else {
+      this._applySize();
+    }
   }
 
   _applyCameraFit(ids) {
@@ -119,11 +120,11 @@ class NodeGraph extends HTMLElement {
   }
 
   get canStep() {
-    return this.getAttribute("can-step") === "true" || false;
+    return this.getAttribute("can-step") === "false" || true;
   }
 
-  get forceExpand() {
-    return this.getAttribute("force-expand") === "true" || false;
+  get mode() {
+    return this.getAttribute("mode") || "dynamic";
   }
 
   get width() {
