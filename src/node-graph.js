@@ -71,12 +71,11 @@ class NodeGraph extends HTMLElement {
       else this._overlay.expand();
     });
 
+    this._applySize();
 
     if (this.forceExpand) { 
-      //this._expandBtnEl.style.display = "none"; 
+      this._expandBtnEl.style.display = "none"; 
       this._overlay.expand();
-    }else {
-      this._applySize();
     }
   }
 
@@ -123,7 +122,9 @@ class NodeGraph extends HTMLElement {
     return this.getAttribute("can-step") === "true" || false;
   }
 
-
+  get forceExpand() {
+    return this.getAttribute("force-expand") === "true" || false;
+  }
 
   get width() {
     return this.getAttribute("width") || "100%";
