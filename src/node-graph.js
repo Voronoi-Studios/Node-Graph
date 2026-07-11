@@ -120,11 +120,11 @@ class NodeGraph extends HTMLElement {
   }
 
   get canStep() {
-    return this.getAttribute("can-step") === "false" || true;
+    return this.getAttribute("can-step") === "true" || false;
   }
 
-  get mode() {
-    return this.getAttribute("mode") || "dynamic";
+  get forceExpand() {
+    return this.getAttribute("force-expand") === "true" || false;
   }
 
   get width() {
