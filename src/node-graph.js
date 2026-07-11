@@ -123,9 +123,7 @@ class NodeGraph extends HTMLElement {
     return this.getAttribute("can-step") === "true" || false;
   }
 
-  get forceExpand() {
-    return this.getAttribute("force-expand") === "true" || false;
-  }
+
 
   get width() {
     return this.getAttribute("width") || "100%";
