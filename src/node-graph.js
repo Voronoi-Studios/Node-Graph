@@ -182,8 +182,8 @@ class NodeGraph extends HTMLElement {
       this._stepping.init(this._steps, this.startStep, Object.keys(this._visuals));
 
       if (this.forceExpand) { 
-        this._expandBtnEl.style.display = "none"; 
         this._overlay.expand();
+        this._expandBtnEl.hidden = true; 
       }
 
       this.dispatchEvent(
