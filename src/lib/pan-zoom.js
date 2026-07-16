@@ -6,6 +6,7 @@ export function attachPanZoom(viewportEl, canvasEl) {
   const pointers = new Map();
   let pinchStartDist = 0;
   let pinchStartScale = 1;
+  let lastMidX = 0, lastMidY = 0;
 
   // Prevent the browser's native touch scroll/zoom from fighting our handlers
   viewportEl.style.touchAction = "none";
@@ -19,6 +20,7 @@ export function attachPanZoom(viewportEl, canvasEl) {
     canvasEl.style.transition = "";
     canvasEl.style.willChange = "";
   }
+
 
   let rafScheduled = false;
   function apply() {
@@ -57,6 +59,12 @@ export function attachPanZoom(viewportEl, canvasEl) {
       const [p1, p2] = getPointsArray();
       pinchStartDist = dist(p1, p2) || 1;
       pinchStartScale = scale;
+
+      const rect = viewportEl.getBoundingClientRect();
+      const mid0 = midpoint(p1, p2);
+      lastMidX = mid0.x - rect.left;
+      lastMidY = mid0.y - rect.top;
+
       beginInteraction();
     }
   }
@@ -75,14 +83,19 @@ export function attachPanZoom(viewportEl, canvasEl) {
 
       const rect = viewportEl.getBoundingClientRect();
       const mid = midpoint(p1, p2);
-      const px = mid.x - rect.left;
-      const py = mid.y - rect.top;
+      const curMidX = mid.x - rect.left;
+      const curMidY = mid.y - rect.top;
 
-      const ratio = newScale / scale;
-      x = px - (px - x) * ratio;
-      y = py - (py - y) * ratio;
+      const contentX = (lastMidX - x) / scale;
+      const contentY = (lastMidY - y) / scale;
 
+      x = curMidX - contentX * newScale;
+      y = curMidY - contentY * newScale;
       scale = newScale;
+
+      lastMidX = curMidX;
+      lastMidY = curMidY;
+
       apply();
       return;
     }
