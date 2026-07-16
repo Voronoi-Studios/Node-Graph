@@ -2,18 +2,36 @@ export function attachPanZoom(viewportEl, canvasEl) {
   let x = 0, y = 0, scale = 1;
   let dragging = false, lastX = 0, lastY = 0;
 
-  // Track all active pointers for multi-touch (pinch) support
+  // Track all active pointers
   const pointers = new Map();
   let pinchStartDist = 0;
   let pinchStartScale = 1;
   let pinchStartMidX = 0, pinchStartMidY = 0;
 
-  // Prevent the browser's native touch scroll/zoom from fighting our handlers
+  // Prevent native touch scroll/zoom
   viewportEl.style.touchAction = "none";
 
-  function apply() {
-    canvasEl.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+  function beginInteraction() {
+    canvasEl.style.transition = "none";
+    canvasEl.style.willChange = "transform";
   }
+ 
+  function endInteraction() {
+    canvasEl.style.transition = "";
+    canvasEl.style.willChange = "";
+  }
+
+
+  let rafScheduled = false;
+  function apply() {
+    if (rafScheduled) return;
+    rafScheduled = true;
+    requestAnimationFrame(() => {
+      rafScheduled = false;
+      canvasEl.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    });
+  }
+
 
   function getPointsArray() {
     return Array.from(pointers.values());
@@ -36,7 +54,7 @@ export function attachPanZoom(viewportEl, canvasEl) {
       lastX = e.clientX;
       lastY = e.clientY;
     } else if (pointers.size === 2) {
-      // Starting a pinch: stop single-finger dragging
+      // Starting a pinch -> stop single-finger dragging
       dragging = false;
       const [p1, p2] = getPointsArray();
       pinchStartDist = dist(p1, p2) || 1;
@@ -44,6 +62,7 @@ export function attachPanZoom(viewportEl, canvasEl) {
       const mid = midpoint(p1, p2);
       pinchStartMidX = mid.x;
       pinchStartMidY = mid.y;
+      beginInteraction();
     }
   }
 
@@ -54,10 +73,7 @@ export function attachPanZoom(viewportEl, canvasEl) {
     if (pointers.size === 2) {
       const [p1, p2] = getPointsArray();
       const newDist = dist(p1, p2) || 1;
-      const newScale = Math.min(
-        Math.max(pinchStartScale * (newDist / pinchStartDist), 0.05),
-        4
-      );
+      const newScale = Math.min(Math.max(pinchStartScale * (newDist / pinchStartDist), 0.05), 4);
 
       const rect = viewportEl.getBoundingClientRect();
       const mid = midpoint(p1, p2);
@@ -95,6 +111,7 @@ export function attachPanZoom(viewportEl, canvasEl) {
       lastY = p.y;
     } else if (pointers.size === 0) {
       dragging = false;
+      endInteraction();
     }
   }
 
@@ -134,6 +151,7 @@ export function attachPanZoom(viewportEl, canvasEl) {
       viewportEl.removeEventListener("pointercancel", onPointerUp);
       viewportEl.removeEventListener("pointerleave", onPointerUp);
       viewportEl.removeEventListener("wheel", onWheel);
+      endInteraction();
     },
   };
 }

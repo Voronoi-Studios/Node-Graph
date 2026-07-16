@@ -144,6 +144,25 @@ class NodeGraph extends HTMLElement {
     try {
       const srcUrl = !this.src.startsWith("https://voronoi.ch/graph.php?src=") ? `https://voronoi.ch/graph.php?src=${this.src}` : this.src;
       const resultFile = await fetch(srcUrl).then((src) => src.json());
+      this._applyResult(resultFile);
+
+    } catch (err) {
+      this._wrap.innerHTML = `<div class="ng-status">Failed to load: ${String(err)}</div>`;
+      console.error("[node-graph]", err);
+    }
+  }
+  
+  setData(result) {
+      this._titleEl.textContent = "node graph";
+      try {
+        this._applyResult(result);
+      } catch (err) {
+        this._wrap.innerHTML = `<div class="ng-status">Failed to load: ${String(err)}</div>`;
+        console.error("[node-graph]", err);
+      }
+    }
+
+  _applyResult(resultFile){
       const result = (typeof resultFile === "object" && resultFile !== null) ? resultFile : null;
       
       this._visuals = result?.visuals || {};
@@ -193,10 +212,6 @@ class NodeGraph extends HTMLElement {
           composed: true,
         })
       );
-    } catch (err) {
-      this._wrap.innerHTML = `<div class="ng-status">Failed to load: ${String(err)}</div>`;
-      console.error("[node-graph]", err);
-    }
   }
 }
 

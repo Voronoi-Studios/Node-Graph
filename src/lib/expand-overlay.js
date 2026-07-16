@@ -50,6 +50,7 @@ export class ExpandOverlay {
       height: targetH + "px",
       transformOrigin: "0 0",
       transition: "none",
+      willChange: "transform",
       transform: `translate(${tx}px, ${ty}px) scale(${sx}, ${sy})`,
     });
 
@@ -65,6 +66,7 @@ export class ExpandOverlay {
       "transitionend",
       () => {
         host.style.transition = "";
+        host.style.willChange = "";
         if (this._onExpanded) this._onExpanded();
       },
       { once: true }
@@ -86,6 +88,7 @@ export class ExpandOverlay {
     const ty = placeholderRect.top - currentRect.top;
 
     host.style.transition = "transform .35s cubic-bezier(.22,.8,.2,1)";
+    host.style.willChange = "transform";
     host.style.transform = `translate(${tx}px, ${ty}px) scale(${sx}, ${sy})`;
 
     host.addEventListener(
@@ -104,6 +107,7 @@ export class ExpandOverlay {
           height: "",
           transformOrigin: "",
           transition: "",
+          willChange: "",
           transform: "",
         });
 
