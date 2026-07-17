@@ -3,17 +3,6 @@
 A framework-agnostic Web Component (custom element) that renders Hytale Node Editor JSON files. It is implemented as a native custom element (class NodeGraph extends HTMLElement) and can be used from plain HTML, MDX, or any framework that can render custom elements.
 
 
-`<script type="module" src="https://cdn.jsdelivr.net/gh/Voronoi-Studios/Node-Graph@latest/dist/node-graph.js"></script>` to add it.
-
-
-If used somwhere like the [HytaleModding's Wiki](https://wiki.hytalemodding.dev/) this might be needed as well to make sure when the Markdown gets sanitized it does not strip out or stuff:
-```js
-DOMPurify.sanitize(html, {
-    ADD_TAGS: ['node-graph'],
-    ADD_ATTR: ['src', 'steps-src', 'start-step', 'can-step'],
-});
-```
-
 ## Features:
 - Browse Hytale Node trees directly in the browser.
 - Groups of nodes can be faded out or highlighted for educational purposes.
@@ -42,6 +31,18 @@ DOMPurify.sanitize(html, {
 > `cdn.discordapp.com` (only works for files posted in public Discords)\
 > `cdn.jsdelivr.net`\
 > `wiki.hytalemodding.dev`
+
+##Implementation
+
+`<script type="module" src="https://cdn.jsdelivr.net/gh/Voronoi-Studios/Node-Graph@latest/dist/node-graph.js"></script>` to add it.
+
+If used somewhere like the [HytaleModding's Wiki](https://wiki.hytalemodding.dev/) some aditional code might be needed, where the Markdown gets sanitized, so it does not strip out our custom component:
+```js
+DOMPurify.sanitize(html, {
+    ADD_TAGS: ['node-graph'],
+    ADD_ATTR: ['src', 'steps-src', 'start-step', 'can-step'],
+});
+```
 
 
 
