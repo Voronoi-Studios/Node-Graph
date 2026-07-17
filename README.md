@@ -46,7 +46,6 @@ DOMPurify.sanitize(html, {
 
 $${\color{gray}\begin{gathered}
 AI \space Notice:\\
-A \space first \space draft \space was \space initially \space created \space with \space AI \space assistance,\\
-since \space then \space my \space stance \space on \space AI \space has \space strongly \space shifted, \space so \space I \\
-removed \space or \space rewrote \space those \space parts \space to \space my \space best \space ability.
+A \space first \space draft \space was \space initially \space created \space with \space AI \space assistance, \space since \space then \space my \space stance \space on \\
+AI \space has \space strongly \space shifted, \space so \space I \space removed \space or \space rewrote \space those \space parts \space to \space my \space best \space ability.
 \end{gathered}}$$
