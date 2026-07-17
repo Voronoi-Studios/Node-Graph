@@ -30,7 +30,7 @@ A framework-agnostic Web Component (custom element) that renders Hytale Node Edi
 > `cdn.jsdelivr.net`\
 > `wiki.hytalemodding.dev`
 
-##Implementation
+## Implementation
 
 `<script type="module" src="https://cdn.jsdelivr.net/gh/Voronoi-Studios/Node-Graph@latest/dist/node-graph.js"></script>` to add it.
 
