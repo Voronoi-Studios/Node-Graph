@@ -32,7 +32,7 @@ A framework-agnostic Web Component (custom element) that renders Hytale Node Edi
 
 ## Implementation
 
-`<script type="module" src="https://cdn.jsdelivr.net/gh/Voronoi-Studios/Node-Graph@latest/dist/node-graph.js"></script>` to add it.
+`<script type="module" src="https://cdn.jsdelivr.net/gh/Voronoi-Studios/Node-Graph@0.3.1/dist/node-graph.js"></script>` to add it.
 
 If used somewhere like the [HytaleModding's Wiki](https://wiki.hytalemodding.dev/) some aditional code might be needed, where the Markdown gets sanitized, so it does not strip out our custom component:
 ```js
