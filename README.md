@@ -12,7 +12,6 @@ A framework-agnostic Web Component (custom element) that renders Hytale Node Edi
 ```html
 <node-graph
   src="path/graph.json"
-  steps-src="path/steps.json"
   start-step="0"
   can-step="true">
 </node-graph>
