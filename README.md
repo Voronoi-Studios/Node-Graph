@@ -19,7 +19,7 @@ A framework-agnostic Web Component (custom element) that renders Hytale Node Edi
 - `src`: path to the actual node json file.
 - `start-step`: default is 0, which means it shows the full graph. if a step file is provided then it will show with that step focused when the user first loads the component
 - `can-step`: defines if the user can use the buttons to step trough the node tree. Setting this to false can be usefull if more of a step by step explaninaition is the goal where the component only should show what is relevant to that step and it allways fits what the text surrounding the component says.
-- `force-expand`: Expands the viewer as soon as the node tree is loaded.
+- `force-expand`: Defaut is false, if true -> Expands the viewer as soon as the node tree is loaded.
 
 > [!IMPORTANT]
 > Currently, only paths from these whitelisted hosts are allowed:\
