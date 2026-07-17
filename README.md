@@ -8,7 +8,6 @@ A framework-agnostic Web Component (custom element) that renders Hytale Node Edi
 - Groups of nodes can be faded out or highlighted for educational purposes.
 
 ## Usage:
-### Example
 ```html
 <node-graph
   src="path/graph.json"
