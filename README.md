@@ -2,6 +2,9 @@
 
 A framework-agnostic Web Component (custom element) that renders Hytale Node Editor JSON files. It is implemented as a native custom element (class NodeGraph extends HTMLElement) and can be used from plain HTML, MDX, or any framework that can render custom elements.
 
+<img width="1759" height="1254" alt="1000034003" src="https://github.com/user-attachments/assets/f00ba2b9-892f-4b45-8982-f19f511a6d09" />
+<img width="1759" height="1254" alt="1000034004" src="https://github.com/user-attachments/assets/c0a87d9d-6994-45ae-8a8f-522f903f8749" />
+
 
 ## Features:
 - Browse Hytale Node trees directly in the browser.
@@ -20,6 +23,8 @@ A framework-agnostic Web Component (custom element) that renders Hytale Node Edi
 - `start-step`: default is 0, which means it shows the full graph. if a step file is provided then it will show with that step focused when the user first loads the component
 - `can-step`: defines if the user can use the buttons to step trough the node tree. Setting this to false can be usefull if more of a step by step explaninaition is the goal where the component only should show what is relevant to that step and it allways fits what the text surrounding the component says.
 - `force-expand`: Defaut is false, if true -> Expands the viewer as soon as the node tree is loaded.
+
+You create steps in the node tree by prefixing a group name with a number fallowed by a `-`.
 
 > [!IMPORTANT]
 > Currently, only paths from these whitelisted hosts are allowed:\
